@@ -2,27 +2,24 @@
 
 namespace App\Nova;
 
+use App\Nova\Traits\ManagementTrait;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Select;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\Password;
-use App\Models\User as ModelsUser;
-use App\Nova\Traits\SecurityTrait;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Household extends Resource
 {
-    use SecurityTrait;
+    use ManagementTrait;
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Household>
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\Models\Household::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -37,7 +34,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-         'name', 'email',
+        'name',
     ];
 
     /**
@@ -49,30 +46,32 @@ class User extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Type')
+            Date::make('Registered Date', 'created_at')
+                ->exceptOnForms()
+                ->sortable(),
+            Text::make('Name')
+                ->rules(['required']),
+            Select::make("4p's Beneficiary", 'four_ps')
                 ->rules(['required'])
                 ->options([
-                    ModelsUser::TYPE_CLERK => ModelsUser::TYPE_CLERK,
-                    ModelsUser::TYPE_ADMIN => ModelsUser::TYPE_ADMIN,
-                    ModelsUser::TYPE_CITIZEN => ModelsUser::TYPE_CITIZEN,
+                    true => 'Yes',
+                    false => 'No',
                 ]),
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
-
-            Image::make('Signature')
-                ->rules(['required', 'max:2000']),
-
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
+            Select::make('NHTS', 'nhts')
+                ->rules(['required'])
+                ->options([
+                    true => 'Yes',
+                    false => 'No',
+                ]),
+            Text::make('Dialec')->rules(['required']),
+            Text::make('Type of Dwelling')
+                ->rules(['required']),
+            Text::make('Type of Electricity')
+                ->rules(['required']),
+            Text::make('Source of water')
+                ->rules(['required']),
+            Text::make('Sanitation Facilities')
+                ->rules(['required']),
         ];
     }
 

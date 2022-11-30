@@ -2,34 +2,36 @@
 
 namespace App\Nova;
 
+use App\Nova\Traits\ManagementTrait;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\Password;
-use App\Models\User as ModelsUser;
-use App\Nova\Traits\SecurityTrait;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Citizen extends Resource
 {
-    use SecurityTrait;
+    use ManagementTrait;
+    public static function label () {
+        return "Residents";
+    }
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Citizen>
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\Models\Citizen::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public function title () {
+        return "$this->last_name, $this->first_name";
+    }
 
     /**
      * The columns that should be searched.
@@ -37,7 +39,9 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-         'name', 'email',
+        'id',
+        'first_name',
+        'last_name',
     ];
 
     /**
@@ -49,30 +53,27 @@ class User extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Type')
+            Date::make('Registered Date', 'created_at')
+                ->exceptOnForms()
+                ->sortable(),
+            Text::make('First Name')
+                ->rules(['required']),
+            Text::make('Last Name')
+                ->rules(['required']),
+            Text::make('Middle Name')
+                ->rules(['required']),
+            Select::make('Gender')
                 ->rules(['required'])
                 ->options([
-                    ModelsUser::TYPE_CLERK => ModelsUser::TYPE_CLERK,
-                    ModelsUser::TYPE_ADMIN => ModelsUser::TYPE_ADMIN,
-                    ModelsUser::TYPE_CITIZEN => ModelsUser::TYPE_CITIZEN,
+                    'Male' => 'Male',
+                    'Female' => 'Female',
                 ]),
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
-
-            Image::make('Signature')
-                ->rules(['required', 'max:2000']),
-
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
+            Date::make('Birthday', 'dob')
+                ->rules(['required']),
+            Image::make('Valid ID', 'valid_id')
+                ->rules(['required', 'image', 'max:2000']),
+            Text::make('Mobile')
+                ->rules(['required', 'max:12']),
         ];
     }
 

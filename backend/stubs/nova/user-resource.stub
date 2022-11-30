@@ -2,27 +2,22 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\Select;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
-use App\Models\User as ModelsUser;
-use App\Nova\Traits\SecurityTrait;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
 {
-    use SecurityTrait;
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\User>
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\User::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -37,7 +32,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-         'name', 'email',
+        'id', 'name', 'email',
     ];
 
     /**
@@ -49,19 +44,13 @@ class User extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Type')
-                ->rules(['required'])
-                ->options([
-                    ModelsUser::TYPE_CLERK => ModelsUser::TYPE_CLERK,
-                    ModelsUser::TYPE_ADMIN => ModelsUser::TYPE_ADMIN,
-                    ModelsUser::TYPE_CITIZEN => ModelsUser::TYPE_CITIZEN,
-                ]),
+            ID::make()->sortable(),
+
+            Gravatar::make()->maxWidth(50),
+
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
-
-            Image::make('Signature')
-                ->rules(['required', 'max:2000']),
 
             Text::make('Email')
                 ->sortable()

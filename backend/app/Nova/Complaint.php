@@ -2,27 +2,23 @@
 
 namespace App\Nova;
 
+use App\Nova\Traits\FeedbackAndComplaintsTrait;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\Select;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\Password;
-use App\Models\User as ModelsUser;
-use App\Nova\Traits\SecurityTrait;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Complaint extends Resource
 {
-    use SecurityTrait;
+    use  FeedbackAndComplaintsTrait;
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Complaint>
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\Models\Complaint::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -37,7 +33,9 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-         'name', 'email',
+        'id',
+        'name',
+        'created_at'
     ];
 
     /**
@@ -49,30 +47,16 @@ class User extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Type')
-                ->rules(['required'])
-                ->options([
-                    ModelsUser::TYPE_CLERK => ModelsUser::TYPE_CLERK,
-                    ModelsUser::TYPE_ADMIN => ModelsUser::TYPE_ADMIN,
-                    ModelsUser::TYPE_CITIZEN => ModelsUser::TYPE_CITIZEN,
-                ]),
-            Text::make('Name')
+            Date::make('Created Date', 'created_at')
                 ->sortable()
-                ->rules('required', 'max:255'),
-
-            Image::make('Signature')
-                ->rules(['required', 'max:2000']),
-
+                ->exceptOnForms(),
             Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
+                ->rules(['required', 'email']),
+            Text::make('Complainant Name', 'name')
+                ->rules(['required']),
+            Textarea::make('Body')
+                ->alwaysShow()
+                ->rules(['required']),
         ];
     }
 
