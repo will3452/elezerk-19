@@ -2,9 +2,13 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Request;
 use Laravel\Nova\Nova;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Blade;
+use Laravel\Nova\Menu\Menu;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -17,7 +21,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
-        Nova::withoutNotificationCenter();
+        // Nova::withoutNotificationCenter();
         Nova::footer(function ($request) {
             return Blade::render('
                 Barangay Information System

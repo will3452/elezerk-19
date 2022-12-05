@@ -2,13 +2,17 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\Approve;
+use App\Nova\Actions\PrintDocument;
 use App\Nova\Traits\ManagementTrait;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Status;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Citizen extends Resource
@@ -56,6 +60,11 @@ class Citizen extends Resource
             Date::make('Registered Date', 'created_at')
                 ->exceptOnForms()
                 ->sortable(),
+            Badge::make('status')
+                ->map([
+                    'Approved' => 'success',
+                    'Pending' => 'info',
+                ]),
             Text::make('First Name')
                 ->rules(['required']),
             Text::make('Last Name')
@@ -118,6 +127,9 @@ class Citizen extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            Approve::make(),
+            PrintDocument::make(),
+        ];
     }
 }

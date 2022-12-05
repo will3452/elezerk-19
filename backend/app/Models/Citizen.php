@@ -17,6 +17,7 @@ class Citizen extends Model
         'gender',
         'valid_id',
         'mobile',
+        'status',
     ];
 
     protected $casts = ['dob' => 'date'];

@@ -3,6 +3,8 @@
 namespace App\Nova;
 
 use App\Models\ServiceRequest as ModelsServiceRequest;
+use App\Models\RequestType as ModelsRequestType;
+use App\Nova\Actions\ChangeStatus;
 use App\Nova\Traits\ManagementTrait;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
@@ -41,6 +43,20 @@ class ServiceRequest extends Resource
     public static $search = [
         'reference',
     ];
+
+    public static function availableForNavigation(Request $request)
+    {
+        return true;
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        $ids = [auth()->id()];
+        $types = ModelsRequestType::whereAssigneeId(auth()->id())->select('id')->get()->pluck('id')->all();
+        $sr = ModelsServiceRequest::whereIn('request_type_id', $types)->select('user_id')->get()->pluck('user_id')->all();
+        $ids = array_merge($ids, $sr);
+        return $query->whereIn('user_id', $ids);
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -115,6 +131,21 @@ class ServiceRequest extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        $actions = [];
+        $model = null;
+
+        if ($request->has('resourceId')) {
+            $model = ServiceRequest::with('requestType')->find($request->resourceId);
+            if ($model->requestType->assignee_id == auth()->id()) {
+                $actions[] = ChangeStatus::make();
+            }
+        }
+
+        if ($request->has('action')) {
+            $actions[] = ChangeStatus::make();
+        }
+
+
+        return $actions;
     }
 }

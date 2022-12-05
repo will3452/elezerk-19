@@ -2,32 +2,34 @@
 
 namespace App\Nova;
 
-use App\Nova\Traits\ManagementTrait;
-use Exception;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Hidden;
+use Illuminate\Support\Str;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use App\Nova\Traits\SettingTrait;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Announcement extends Resource
+class Cms extends Resource
 {
-    use ManagementTrait;
+    public static function singularLabel()
+    {
+        return Str::singular('Variable');
+    }
+    use SettingTrait;
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Announcement>
+     * @var class-string<\App\Models\Cms>
      */
-    public static $model = \App\Models\Announcement::class;
+    public static $model = \App\Models\Cms::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'title';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -35,44 +37,11 @@ class Announcement extends Resource
      * @var array
      */
     public static $search = [
-        'id',
-        'title',
-        'schedule'
+        'key',
     ];
 
-    public static function availableForNavigation(Request $request)
-    {
-        return true;
-    }
-
-
-    public static function  authorizedToCreate(Request $request) {
-        try {
-            $allowed = [\App\Models\User::TYPE_ADMIN, \App\Models\User::TYPE_CLERK];
-            return in_array(auth()->user()->type, $allowed);
-        } catch (Exception $e) {
-            return true;
-        }
-    }
-
-    public function authorizedToDelete(Request $request)
-    {
-        try {
-            $allowed = [\App\Models\User::TYPE_ADMIN, \App\Models\User::TYPE_CLERK];
-            return in_array(auth()->user()->type, $allowed);
-        } catch (Exception $e) {
-            return true;
-        }
-    }
-
-    public function authorizedToUpdate(Request $request)
-    {
-        try {
-            $allowed = [\App\Models\User::TYPE_ADMIN, \App\Models\User::TYPE_CLERK];
-            return in_array(auth()->user()->type, $allowed);
-        } catch (Exception $e) {
-            return true;
-        }
+    public static function label () {
+        return "CMS";
     }
 
     /**
@@ -84,15 +53,11 @@ class Announcement extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Hidden::make('user_id')
-                ->default(fn () => auth()->id()),
-            Text::make('Title')
-                ->rules(['required']),
-            Textarea::make('Body')
+            Text::make('Key')
+                ->rules(['required', 'unique:cms,key,{{resourceId}}']),
+            Textarea::make('Value')
                 ->alwaysShow()
                 ->rules(['required']),
-            Date::make('Schedule'),
-
         ];
     }
 

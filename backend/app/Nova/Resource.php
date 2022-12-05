@@ -2,8 +2,9 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Http\Requests\NovaRequest;
+use Illuminate\Http\Request;
 use Laravel\Nova\Resource as NovaResource;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 abstract class Resource extends NovaResource
 {
@@ -18,6 +19,12 @@ abstract class Resource extends NovaResource
     {
         return $query;
     }
+
+    public function authorizedToReplicate(Request $request)
+    {
+        return false;
+    }
+
 
     /**
      * Build a Scout search query for the given resource.

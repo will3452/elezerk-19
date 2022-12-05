@@ -28,7 +28,7 @@ class User extends Authenticatable
 
     const TYPE_CLERK = 'Clerk';
     const TYPE_ADMIN = 'Administrator';
-    const TYPE_CITIZEN = 'Citizen';
+    const TYPE_CITIZEN = 'Resident';
 
     /**
      * The attributes that should be hidden for serialization.

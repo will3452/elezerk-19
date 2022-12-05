@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>{{ env('APP_NAME') }}</title>
+        <title>Register</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -27,72 +27,28 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="#services">Features</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#team">Officials</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="/nova/">Login</a></li>
                         <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <!-- Masthead-->
-        <header class="masthead">
-            <div class="container">
-                <div class="masthead-heading text-uppercase">{{getSetting('welcome')}}</div>
-                <a class="btn btn-primary btn-xl text-uppercase" href="#services">Tell Me More</a>
-            </div>
-        </header>
-        <!-- Services-->
-        <section class="page-section" id="services">
-            <div class="container">
-                <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Features</h2>
-                    <h3 class="section-subheading text-muted">
-                        {{getSetting('features')}}
-                    </h3>
-                </div>
-            </div>
-        </section>
-        <!-- About-->
-        <section class="page-section" id="about">
-            <div class="container">
-                <div class="text-center">
-                    <h2 class="section-heading text-uppercase">About</h2>
-                    <h3 class="section-subheading text-muted">{{getSetting('about')}}</h3>
-                </div>
-            </div>
-        </section>
-        <!-- Team-->
-        <section class="page-section bg-light" id="team">
-            <div class="container">
-                <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Barangay Officials</h2>
-                    {{-- <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3> --}}
-                </div>
-                <div class="row justify-content-center">
-                    @foreach (\App\Models\Official::get() as $item)
-                    <div class="col-lg-4">
-                        <div class="team-member">
-                            <img class="mx-auto rounded-circle" src="/storage/{{$item->image}}" alt="..." />
-                            <h4>{{$item->name}}</h4>
-                            <p class="text-muted">{{$item->position}}</p>
-                            <small>{{$item->description}}</small>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-
-            </div>
-        </section>
         <!-- Contact-->
         <section class="page-section" id="contact">
+
             <div class="container">
                 <div class="text-center">
-                    <h2 class="section-heading text-uppercase">Contacts</h2>
-                    <h3 class="section-subheading text-muted">{{getSetting('contacts')}}</h3>
+                    <h2 class="section-heading text-uppercase">REGISTER</h2>
                 </div>
+
+            @if (count($errors))
+                @foreach ($errors->all() as $item)
+                    <div class="text-center text-white">
+                        {{$item}}
+                    </div>
+                @endforeach
+            @endif
                 <!-- * * * * * * * * * * * * * * *-->
                 <!-- * * SB Forms Contact Form * *-->
                 <!-- * * * * * * * * * * * * * * *-->
@@ -100,14 +56,39 @@
                 <!-- To make this form functional, sign up at-->
                 <!-- https://startbootstrap.com/solution/contact-forms-->
                 <!-- to get an API token!-->
-                <form id="contactForm" method="POST" action="/feedback">
+                <form id="contactForm" method="POST" action="/register" enctype="multipart/form-data">
                     @csrf
-                    <div class="row align-items-stretch mb-5">
-                        <div class="col-md-6">
+                    <div class="row align-items-stretch mb-5 justify-content-center">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <!-- Name input-->
-                                <input name="name" class="form-control" id="name" type="text" placeholder="Your Name *" data-sb-validations="required" />
-                                <div class="invalid-feedback" data-sb-feedback="name:required">A name is required.</div>
+                                <input name="last_name" class="form-control" id="last_name" type="text" placeholder="Your last name *" data-sb-validations="required" />
+                            </div>
+                            <div class="form-group">
+                                <!-- Name input-->
+                                <input name="first_name" class="form-control" id="first_name" type="text" placeholder="Your first name *" data-sb-validations="required" />
+                            </div>
+                            <div class="form-group">
+                                <!-- Name input-->
+                                <input name="middle_name" class="form-control" id="middle_name" type="text" placeholder="Your middle name *" data-sb-validations="required" />
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-white">Date of birth</label>
+                                <!-- Name input-->
+                                <input name="dob" class="form-control" id="dob" type="date" placeholder="Date of birth *" data-sb-validations="required" />
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-white">Gender</label>
+                                <!-- Name input-->
+                                <select name="gender" id="gender" class="form-control form-select">
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="text-white">Mobile</label>
+                                <!-- Name input-->
+                                <input name="mobile" class="form-control" id="mobile" type="number" placeholder="Mobile number" data-sb-validations="required" />
                             </div>
                             <div class="form-group">
                                 <!-- Email address input-->
@@ -115,12 +96,9 @@
                                 <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                                 <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group form-group-textarea mb-md-0">
-                                <!-- Message input-->
-                                <textarea name="body" class="form-control" id="message" placeholder="Your Message *" data-sb-validations="required"></textarea>
-                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
+                            <div class="form-group">
+                                <label for="" class="text-white">Valid ID</label>
+                                <input type="file" name="valid_id" required class="form-control">
                             </div>
                         </div>
                     </div>
@@ -370,10 +348,5 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="/js/scripts.js"></script>
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <!-- * *                               SB Forms JS                               * *-->
-        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
-        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
-        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </body>
 </html>
