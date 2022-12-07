@@ -2,13 +2,14 @@
 
 namespace App\Nova;
 
-use App\Nova\Filters\AcademicYearFilter;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Actions\ExportAsCsv;
+use App\Nova\Filters\AcademicYearFilter;
 use App\Nova\Traits\RecordAndReportTrait;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -108,6 +109,9 @@ class StudentGrade extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            ExportAsCsv::make()
+                ->nameable(),
+        ];
     }
 }

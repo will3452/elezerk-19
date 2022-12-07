@@ -2,13 +2,13 @@
 
 namespace App\Nova\Metrics;
 
-use App\Models\Student;
+use App\Models\Employee;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
-class Students extends Value
+class Employees extends Value
 {
-    public $icon = 'users';
+    public $icon = 'briefcase';
     /**
      * Calculate the value of the metric.
      *
@@ -17,9 +17,8 @@ class Students extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->result(Student::count());
+        return $this->result(Employee::count());
     }
-
 
     /**
      * Determine the amount of time the results of the metric should be cached.

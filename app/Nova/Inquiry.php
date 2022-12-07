@@ -2,35 +2,30 @@
 
 namespace App\Nova;
 
-use App\Nova\Filters\AcademicYearFilter;
-use App\Nova\Traits\MaintenanceTrait;
+use App\Nova\Traits\TransactionTrait;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class TeachingLoad extends Resource
+class Inquiry extends Resource
 {
-    use MaintenanceTrait;
+    use TransactionTrait;
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\TeachingLoad>
+     * @var class-string<\App\Models\Inquery>
      */
-    public static $model = \App\Models\TeachingLoad::class;
+    public static $model = \App\Models\Inquiry::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-
-    public function title () {
-        $section = \App\Models\Section::find($this->section_id);
-
-        return "$section->name";
-    }
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -38,7 +33,9 @@ class TeachingLoad extends Resource
      * @var array
      */
     public static $search = [
-        'created_at',
+        'name',
+        'email',
+        'phone'
     ];
 
     /**
@@ -50,13 +47,19 @@ class TeachingLoad extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            BelongsTo::make('Section', 'section', Section::class),
-            BelongsTo::make('Subject', 'subject', Subject::class),
-            Hidden::make('academic_year_id')
-                ->default(fn () => \App\Models\AcademicYear::whereActive(true)->latest()->first()->id),
-            BelongsTo::make('Academic Year', 'academicYear', AcademicYear::class)
-                ->exceptOnForms(),
-            BelongsTo::make('Faculty', 'teacher', Employee::class),
+            Date::make('Date', 'created_at')
+                ->exceptOnForms()
+                ->sortable(),
+            Text::make('Name')
+                ->rules(['required']),
+            Text::make('Email')
+                ->rules(['email']),
+            Text::make('Phone')
+                ->rules(['required']),
+            Text::make('Subject')
+                ->rules(['required']),
+            Textarea::make('Message')
+                ->alwaysShow(),
         ];
     }
 
@@ -79,9 +82,7 @@ class TeachingLoad extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [
-            AcademicYearFilter::make(),
-        ];
+        return [];
     }
 
     /**

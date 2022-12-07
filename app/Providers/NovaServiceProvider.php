@@ -19,7 +19,12 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         parent::boot();
         Nova::footer(function ($request) {
             return Blade::render("
-                Enrollment system {{now()->format('Y')}}
+                <div>
+                Active Academic Year: {{optional(\App\Models\AcademicYear::whereActive(true)->latest()->first())->from}} - {{optional(\App\Models\AcademicYear::whereActive(true)->latest()->first())->to}}
+                </div>
+                <div>
+                {{getVariable('app_name', env('APP_NAME'))}}
+                </div>
             ");
         });
         Nova::withBreadcrumbs();
