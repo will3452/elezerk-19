@@ -9,6 +9,8 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Actions\ExportAsCsv;
 use App\Nova\Actions\AddNewAttendance;
+use App\Nova\Filters\SectionFilter;
+use App\Nova\Filters\SubjectFilter;
 use App\Nova\Traits\RecordAndReportTrait;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -82,7 +84,10 @@ class Attendance extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            SectionFilter::make(),
+            SubjectFilter::make(),
+        ];
     }
 
     /**
