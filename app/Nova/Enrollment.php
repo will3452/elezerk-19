@@ -71,16 +71,6 @@ class Enrollment extends Resource
                     'Pending' => 'Pending',
                     'Approved' => 'Approved',
                 ]),
-            Select::make('Level')
-                ->rules(['required'])
-                ->options([
-                    1 => 1,
-                    2 => 2,
-                    3 => 3,
-                    4 => 4,
-                    5 => 5,
-                    6 => 6,
-                ]),
            File::make('Attachments')
                 ->rules(['max:5000']),
         ];
@@ -137,7 +127,6 @@ class Enrollment extends Resource
                         'Name' => $model->student->last_name . ", " . $model->student->first_name,
                         'Section' => $model->section->name,
                         'Status' => $model->status,
-                        'Level' => $model->level,
                     ];
                 })
                 ->nameable(),

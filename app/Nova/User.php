@@ -73,7 +73,6 @@ class User extends Resource
                 ->options([
                     ModelsUser::TYPE_ADMIN => ModelsUser::TYPE_ADMIN,
                     ModelsUser::TYPE_EMPLOYEE => ModelsUser::TYPE_EMPLOYEE,
-                    ModelsUser::TYPE_STUDENT => ModelsUser::TYPE_STUDENT,
                 ]),
 
             Text::make('Name')

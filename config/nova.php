@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\AuditMiddleware;
 use Laravel\Nova\Actions\ActionResource;
 use Laravel\Nova\Http\Middleware\Authenticate;
 use Laravel\Nova\Http\Middleware\Authorize;
@@ -103,6 +104,7 @@ return [
         HandleInertiaRequests::class,
         DispatchServingNovaEvent::class,
         BootTools::class,
+        AuditMiddleware::class,
     ],
 
     'api_middleware' => [

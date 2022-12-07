@@ -13,7 +13,6 @@ class Enrollment extends Model
         'student_id',
         'section_id',
         'status',
-        'level',
         'academic_year_id',
         'attachments',
     ];

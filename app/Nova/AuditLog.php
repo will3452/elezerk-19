@@ -2,35 +2,37 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\ID;
+use App\Models\User;
+use App\Nova\Traits\SettingTrait;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Actions\ExportAsCsv;
-use App\Nova\Filters\AcademicYearFilter;
-use App\Nova\Filters\SectionFilter;
-use App\Nova\Filters\SubjectFilter;
-use App\Nova\Traits\RecordAndReportTrait;
+use Laravel\Nova\Fields\Badge;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class StudentGrade extends Resource
+class AuditLog extends Resource
 {
-    use RecordAndReportTrait;
+    use SettingTrait;
+    public static function availableForNavigation(Request $request)
+    {
+        return auth()->user()->type == \App\Models\User::TYPE_ADMIN;
+    }
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\StudentGrade>
+     * @var class-string<\App\Models\AuditLog>
      */
-    public static $model = \App\Models\StudentGrade::class;
+    public static $model = \App\Models\AuditLog::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'created_at';
+    public static $title = 'endpoint';
 
     /**
      * The columns that should be searched.
@@ -38,13 +40,11 @@ class StudentGrade extends Resource
      * @var array
      */
     public static $search = [
+        'id',
         'created_at',
+        'method',
+        'endpoint'
     ];
-
-    public static function authorizedToCreate(Request $request)
-    {
-        return false;
-    }
 
     /**
      * Get the fields displayed by the resource.
@@ -58,14 +58,39 @@ class StudentGrade extends Resource
             Date::make('Date', 'created_at')
                 ->sortable()
                 ->exceptOnForms(),
-            Text::make('Grade')
-                ->rules(['required']),
-            Textarea::make('Remarks')
-                ->alwaysShow(),
-            BelongsTo::make('Student', 'student', Student::class),
-            BelongsTo::make('Section', 'section', Section::class),
-            BelongsTo::make('Subject', 'subject', Subject::class),
+            Badge::make('Action', 'method')
+                ->map([
+                    'DELETE' => 'danger',
+                    'POST' => 'success',
+                    'PUT' => 'warning',
+                ])->labels([
+                    'DELETE' => 'Delete',
+                    'POST' => 'Create',
+                    'PUT' => 'Update'
+                ]),
+            Text::make('Endpoint'),
+            BelongsTo::make('User', 'user', \App\Nova\User::class),
         ];
+    }
+
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToDelete(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToUpdate(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToView(Request $request)
+    {
+        return false;
     }
 
     /**
@@ -87,11 +112,7 @@ class StudentGrade extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [
-            AcademicYearFilter::make(),
-            SectionFilter::make(),
-            SubjectFilter::make(),
-        ];
+        return [];
     }
 
     /**
@@ -105,6 +126,7 @@ class StudentGrade extends Resource
         return [];
     }
 
+
     /**
      * Get the actions available for the resource.
      *
@@ -115,6 +137,12 @@ class StudentGrade extends Resource
     {
         return [
             ExportAsCsv::make()
+                ->withFormat(fn ($record) => [
+                    'Date' => $record->created_at->format('m-d-Y'),
+                    'Action' => $record->method,
+                    'Endpoint' => $record->endpoint,
+                    'User' => $record->user->name,
+                ])
                 ->nameable(),
         ];
     }

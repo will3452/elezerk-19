@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEnrollmentsTable extends Migration
+class CreateAuditLogsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateEnrollmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('enrollments', function (Blueprint $table) {
+        Schema::create('audit_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id');
-            $table->foreignId('section_id');
-            $table->foreignId('academic_year_id');
-            $table->string('status');
-            $table->string('attachments')->nullable();
+            $table->foreignId('user_id')->nullable();
+            $table->string('endpoint')->nullable();
+            $table->string('ip')->nullable();
+            $table->string('method')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateEnrollmentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('enrollments');
+        Schema::dropIfExists('audit_logs');
     }
 }

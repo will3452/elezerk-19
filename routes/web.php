@@ -43,3 +43,8 @@ Route::post('inquiry', function (Request $request) {
     }
     return back()->withSuccess("You're inquiry has been sent!");
 })->name('inquiry');
+
+
+Route::get('/test', function (Request $request) {
+    return $request->url();
+});

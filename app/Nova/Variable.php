@@ -12,6 +12,11 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class Variable extends Resource
 {
     use SettingTrait;
+
+    public static function availableForNavigation(Request $request)
+    {
+        return auth()->user()->type == \App\Models\User::TYPE_ADMIN;
+    }
     /**
      * The model the resource corresponds to.
      *

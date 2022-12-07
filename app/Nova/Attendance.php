@@ -55,7 +55,8 @@ class Attendance extends Resource
             Date::make('Date', 'created_at')
                 ->exceptOnForms()
                 ->sortable(),
-            BelongsTo::make('Student', 'student', Student::class),
+            BelongsTo::make('Student', 'student', Student::class)
+                ->withoutTrashed(),
             BelongsTo::make('Subject', 'subject', subject::class),
             BelongsTo::make('Section', 'section', section::class),
             Text::make('Remarks'),
