@@ -5,10 +5,13 @@ namespace App\Nova;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Select;
 use App\Nova\Traits\TransactionTrait;
 use Laravel\Nova\Actions\ExportAsCsv;
 use App\Nova\Traits\RecordAndReportTrait;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Filters\SectionFilter;
+use App\Nova\Filters\LevelFilter;
 
 class Student extends Resource
 {
@@ -56,6 +59,25 @@ class Student extends Resource
             Text::make('Middle Name'),
             Text::make('Student LRN', 'studentId')
                 ->rules(['required', 'unique:students,studentId,{{resourceId}}']),
+            Select::make('Status')
+                ->rules(['required'])
+                ->options([
+                    'Active' => 'Active',
+                    'Dropped' => 'Dropped',
+                    'Graduated' => 'Graduated',
+                ]),
+            Text::make('Parent Email')
+                ->rules(['required', 'email']),
+            Select::make('Level')
+                ->rules(['required'])
+                ->options([
+                    1 => 1,
+                    2 => 2,
+                    3 => 3,
+                    4 => 4,
+                    5 => 5,
+                    6 => 6,
+                ]),
         ];
     }
 
@@ -78,7 +100,10 @@ class Student extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            SectionFilter::make(), 
+            LevelFilter::make(), 
+        ];
     }
 
     /**

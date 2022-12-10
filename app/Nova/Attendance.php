@@ -9,9 +9,11 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Actions\ExportAsCsv;
 use App\Nova\Actions\AddNewAttendance;
+use App\Nova\Filters\CustomDateFilter;
 use App\Nova\Filters\SectionFilter;
 use App\Nova\Filters\SubjectFilter;
 use App\Nova\Traits\RecordAndReportTrait;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Attendance extends Resource
@@ -61,6 +63,7 @@ class Attendance extends Resource
                 ->withoutTrashed(),
             BelongsTo::make('Subject', 'subject', subject::class),
             BelongsTo::make('Section', 'section', section::class),
+
             Text::make('Remarks'),
         ];
     }
@@ -87,6 +90,7 @@ class Attendance extends Resource
         return [
             SectionFilter::make(),
             SubjectFilter::make(),
+            CustomDateFilter::make(),
         ];
     }
 

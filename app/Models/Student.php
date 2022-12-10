@@ -15,6 +15,10 @@ class Student extends Model
         'last_name',
         'middle_name',
         'studentId',
+        'status',
+        'level',
+        'section_id',
+        'parent_email', 
     ];
 
 }
