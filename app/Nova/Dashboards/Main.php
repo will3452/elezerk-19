@@ -21,7 +21,8 @@ class Main extends Dashboard
     {
         return [
             Students::make(),
-            Employees::make(),
+            Employees::make()
+                ->canSee(fn () => auth()->user()->type == 'Administrator'),
             Inquiries::make(),
             Sections::make(),
             Attendances::make(),
