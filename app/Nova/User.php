@@ -2,11 +2,14 @@
 
 namespace App\Nova;
 
+use App\Models\User as ModelsUser;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -44,9 +47,13 @@ class User extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            ID::make()->sortable(),
 
-            Gravatar::make()->maxWidth(50),
+            Select::make('Type')
+                ->options([
+                    ModelsUser::TYPE_ADMIN => ModelsUser::TYPE_ADMIN,
+                    ModelsUser::TYPE_SUPPLIER => ModelsUser::TYPE_SUPPLIER,
+                    ModelsUser::TYPE_CUSTOMER => ModelsUser::TYPE_CUSTOMER,
+                ]),
 
             Text::make('Name')
                 ->sortable()
@@ -62,6 +69,10 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', Rules\Password::defaults())
                 ->updateRules('nullable', Rules\Password::defaults()),
+
+            BelongsTo::make('Barangay', 'barangay', Barangay::class),
+
+            Text::make('Address'),
         ];
     }
 
