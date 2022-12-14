@@ -21,7 +21,12 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type',
     ];
+
+    const TYPE_ADMIN = 'Administrator';
+    const TYPE_LANDLORD = 'Landlord';
+    const TYPE_STUDENT = 'Student';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -41,4 +46,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function rooms () {
+        return $this->hasMany(Room::class);
+    }
+
+    public function transactions () {
+        return $this->hasMany(Transaction::class);
+    }
 }

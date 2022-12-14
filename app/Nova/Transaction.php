@@ -2,35 +2,41 @@
 
 namespace App\Nova;
 
-use App\Models\User as ModelsUser;
-use App\Nova\Traits\AdminTraits;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class User extends Resource
+class Transaction extends Resource
 {
-    use AdminTraits;
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Transaction>
      */
-    public static $model = \App\Models\User::class;
-
-
+    public static $model = \App\Models\Transaction::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public function title () {
+        $name = $this->user->name;
+        return "$this->year, $this->month - $name";
+    }
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (auth()->user()->type == \App\Models\User::TYPE_ADMIN) {
+            return $query;
+        }
+        $rooms = auth()->user()->rooms->pluck('id')->all();
+        return $query->whereIn('room_id', $rooms);
+    }
 
     /**
      * The columns that should be searched.
@@ -38,7 +44,8 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'month',
+        'year',
     ];
 
     /**
@@ -50,27 +57,16 @@ class User extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Type')
-                ->options([
-                    ModelsUser::TYPE_ADMIN => ModelsUser::TYPE_ADMIN,
-                    ModelsUser::TYPE_LANDLORD => ModelsUser::TYPE_LANDLORD,
-                    ModelsUser::TYPE_STUDENT => ModelsUser::TYPE_STUDENT,
-                ]),
-
-            Text::make('Name')
-                ->sortable()
-                ->rules('required', 'max:255'),
-
-            Text::make('Email')
-                ->sortable()
-                ->rules('required', 'email', 'max:254')
-                ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
-
-            Password::make('Password')
-                ->onlyOnForms()
-                ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
+            Date::make('Paid At')
+                ->rules(['required']),
+            Text::make('Year')
+                ->rules(['required']),
+            Text::make('Month')
+                ->rules(['required']),
+            BelongsTo::make('User', 'user', User::class),
+            BelongsTo::make('Room', 'room', Room::class),
+            Currency::make('Amount', 'amount_payable')
+                ->rules(['required']),
         ];
     }
 

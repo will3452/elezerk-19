@@ -2,6 +2,10 @@
 
 namespace App\Nova\Dashboards;
 
+use App\Models\User;
+use App\Nova\Metrics\AvailableRooms;
+use App\Nova\Metrics\PendingBookings;
+use App\Nova\Metrics\TotalRooms;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Dashboards\Main as Dashboard;
 
@@ -15,7 +19,9 @@ class Main extends Dashboard
     public function cards()
     {
         return [
-            new Help,
+            PendingBookings::make()->canSee(fn () => auth()->user()->type == User::TYPE_LANDLORD),
+            AvailableRooms::make()->canSee(fn () => auth()->user()->type == User::TYPE_LANDLORD),
+            TotalRooms::make()->canSee(fn () => auth()->user()->type == User::TYPE_LANDLORD),
         ];
     }
 }
