@@ -27,7 +27,7 @@
 <div class="product-area pb-60 mt-4" id="shop">
     <div class="container">
         <div class="section-title text-center">
-            <h2>DAILY DEALS!</h2>
+            <h2>Shop Now!</h2>
         </div>
         <div class="product-tab-list nav pt-30 pb-55 text-center">
             <a href="#product-1" data-bs-toggle="tab" >
@@ -38,7 +38,7 @@
             </a>
         </div>
         <div class="tab-content jump">
-            <div class="tab-pane" id="product-1">
+            <div class="tab-pane active" id="product-1">
                 <div class="row">
                     @foreach (\App\Models\Product::whereCategory('NON-FOOD')->get() as $item)
                     <div class="col-xl-3 col-md-6 col-lg-4 col-sm-6">
@@ -52,7 +52,11 @@
                                         <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
                                     </div>
                                     <div class="pro-same-action pro-cart">
-                                        <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
+                                        <form id="form" method="POST" action="{{route('products.store', ['product' => $item->id])}}">
+                                            @csrf
+                                            <input type="hidden" name="quantity" value="1">
+                                            <a title="Add To Cart" href="#" onclick="document.getElementById('form').submit()"><i class="pe-7s-cart"></i> Add to cart</a>
+                                        </form>
                                     </div>
                                     <div class="pro-same-action pro-quickview">
                                         <a title="Quick View" href="{{route('products.show', ['product' => $item->id])}}"  ><i class="pe-7s-look"></i></a>
@@ -88,7 +92,7 @@
                                 </a>
                                 <div class="product-action">
                                     <div class="pro-same-action pro-wishlist">
-                                        <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
+                                        <a title="Wishlist" href="/add-to-wishlist/{{$item->id}}"><i class="pe-7s-like"></i></a>
                                     </div>
                                     <div class="pro-same-action pro-cart">
                                         <form id="form" method="POST" action="{{route('products.store', ['product' => $item->id])}}">

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,16 @@ Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.in
 Route::get('/add-to-wishlist/{product}', [WishlistController::class, 'addItem'])->name('wishlist.store');
 Route::post('/add-review/{product}', [ProductController::class, 'addReview'])->name('add.review');
 
+Route::prefix('orders')->name('orders.')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('index');
+    Route::post('/', [OrderController::class, 'store'])->name('store');
+    Route::post('/cancel/{order}', [OrderController::class, 'cancel'])->name('cancel');
+});
+
 Auth::routes();
 
+Route::get('/search', [ProductController::class, 'search']);
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::view('/about', 'about');
+Route::view('/contact', 'contact');

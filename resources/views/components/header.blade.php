@@ -24,8 +24,8 @@
                                     </li>
                                 </ul>
                             </li> --}}
-                            <li><a href="about.html"> About </a></li>
-                            <li><a href="contact.html"> Contact</a></li>
+                            <li><a href="/about"> About </a></li>
+                            <li><a href="/contact"> Contact</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -35,8 +35,8 @@
                     <div class="same-style header-search">
                         <a class="search-active" href="#"><i class="pe-7s-search"></i></a>
                         <div class="search-content">
-                            <form action="#">
-                                <input type="text" placeholder="Search" />
+                            <form action="/search">
+                                <input type="text" name="keyword" placeholder="Search" />
                                 <button class="button-search"><i class="pe-7s-search"></i></button>
                             </form>
                         </div>
@@ -50,7 +50,8 @@
                                     <li><a href="/register">Register</a></li>
                                 @endguest
                                 @auth
-                                    <li><a href="/home">my account</a></li>
+                                    <li><a href="/home">My account</a></li>
+                                    <li><a href="/orders">My Orders</a></li>
                                 @endauth
                             </ul>
                         </div>

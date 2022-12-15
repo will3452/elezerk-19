@@ -47,16 +47,17 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div>
+                            <form id="form" method="POST" action="{{route('orders.store')}}">
+                                @csrf
                                 <label for="">Payment Method</label>
-                                <select name="payment_method" id="" class="form-select form-select-sm">
+                                <select name="mop" id="" class="form-select form-select-sm">
                                     <option value="COD"> CASH ON DELIVERY</option>
                                     <option value="GCASH"> GCASH</option>
                                 </select>
-                            </div>
+                            </form>
                         </div>
                         <div class="Place-order mt-25">
-                            <a class="btn-hover" href="#">Place Order</a>
+                            <a class="btn-hover" href="#" onclick="document.getElementById('form').submit()">Place Order</a>
                         </div>
                     </div>
                 </div>

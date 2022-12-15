@@ -9,6 +9,14 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function search (Request $request) {
+        if (! $request->has('keyword')) back();
+
+        $products = Product::where('name', "LIKE", "%$request->keyword%")->get();
+
+        return view('search', compact('products'));
+    }
+
     public function __construct()
     {
         $this->middleware(['auth']);

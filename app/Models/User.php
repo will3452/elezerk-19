@@ -59,6 +59,10 @@ class User extends Authenticatable
         return $this->hasMany(CartItem::class, 'user_id');
     }
 
+    public function orders () {
+        return $this->hasMany(Order::class);
+    }
+
     public function getTotalProductAttribute() {
         $total = 0;
         foreach ($this->cartItems as $item) {
