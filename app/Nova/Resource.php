@@ -2,11 +2,16 @@
 
 namespace App\Nova;
 
+use Illuminate\Http\Request;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource as NovaResource;
 
 abstract class Resource extends NovaResource
 {
+    public function authorizedToReplicate(Request $request)
+    {
+        return false;
+    }
     /**
      * Build an "index" query for the given resource.
      *
