@@ -25,4 +25,12 @@ class Bid extends Model
     const STATUS_DONE = 'Done';
 
     protected $casts = [ 'scheduled_date' => 'datetime'];
+
+    // public function participants () {
+    //     return $this->belongsToMany(User::class, 'participants', 'bid_id');
+    // }
+
+    public function participants () {
+        return $this->hasMany(Participant::class, 'bid_id');
+    }
 }

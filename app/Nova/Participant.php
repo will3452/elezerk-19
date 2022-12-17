@@ -2,29 +2,49 @@
 
 namespace App\Nova;
 
-use App\Nova\Traits\SettingTraits;
+use App\Nova\Traits\AdministratorTraits;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Category extends Resource
+class Participant extends Resource
 {
-    use SettingTraits;
+    use AdministratorTraits;
+    public static function availableForNavigation(Request $request)
+    {
+        return false;
+    }
 
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToUpdate(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToView(Request $request)
+    {
+        return false;
+    }
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Category>
+     * @var class-string<\App\Models\Participant>
      */
-    public static $model = \App\Models\Category::class;
+    public static $model = \App\Models\Participant::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -32,7 +52,7 @@ class Category extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'id',
     ];
 
     /**
@@ -44,8 +64,10 @@ class Category extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Name')
-                ->rules(['required'])
+
+            BelongsTo::make('User', 'user', User::class),
+
+            BelongsTo::make('Bid', 'bid', Bid::class),
         ];
     }
 

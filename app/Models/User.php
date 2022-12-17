@@ -45,4 +45,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function joinedBids () {
+        return $this->belongsToMany(Bid::class, 'participants', 'user_id');
+    }
+
+    public function accessFiles () {
+        return $this->belongsToMany(Document::class, 'accesses', 'user_id');
+    }
+
+    public function bids () {
+        return $this->hasMany(Bid::class, 'user_id');
+    }
 }

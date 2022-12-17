@@ -2,18 +2,32 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\CreateAccess;
+use App\Nova\Traits\AdministratorTraits;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Badge;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Document extends Resource
 {
+    use AdministratorTraits;
+
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if ($request->user()->type == \App\Models\User::TYPE_ADMIN) {
+            return $query;
+        }
+
+        $accesses = auth()->user()->accessFiles->pluck('id')->all();
+        return $query->whereIn('id', $accesses);
+    }
     /**
      * The model the resource corresponds to.
      *
@@ -35,7 +49,8 @@ class Document extends Resource
      */
     public static $search = [
         'id',
-        'title'
+        'title',
+        'description',
     ];
 
     /**
@@ -64,6 +79,7 @@ class Document extends Resource
                     'DONE' => 'success',
                     'ACTIVE' => 'info',
                 ]),
+            HasMany::make('Accesses', 'accesses', Access::class)
         ];
     }
 
@@ -108,6 +124,8 @@ class Document extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            CreateAccess::make()->canRun(fn () => auth()->user()->type == \App\Models\User::TYPE_ADMIN),
+        ];
     }
 }

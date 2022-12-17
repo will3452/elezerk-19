@@ -22,4 +22,8 @@ class Document extends Model
     const STATUS_DONE = 'DONE';
     const STATUS_ACTIVE = 'ACTIVE';
 
+    public function accesses () {
+        return $this->hasMany(Access::class);
+    }
+
 }

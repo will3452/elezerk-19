@@ -17,6 +17,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         parent::boot();
         Nova::footer(fn() => "Footer Text here");
+        Nova::withBreadcrumbs();
+        // Nova::withoutNotificationCenter();
     }
 
     /**
