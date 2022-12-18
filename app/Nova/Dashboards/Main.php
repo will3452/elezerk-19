@@ -9,6 +9,7 @@ use App\Nova\Metrics\Events;
 use Laravel\Nova\Cards\Help;
 use App\Nova\Metrics\Documents;
 use App\Nova\Metrics\Announcements;
+use Elezerk\Calendar\Calendar;
 use Laravel\Nova\Dashboards\Main as Dashboard;
 
 class Main extends Dashboard

@@ -27,12 +27,24 @@
         </ul>
     </div>
 
-    <form action="#" method="POST">
+    <form action="/register" method="POST">
+
         <div class="register-container">
+
             <div class="register-card">
+                @csrf
                 <div class="register-title">
                     <h2>Registration</h2>
                 </div>
+
+
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                        <div style="color:red;font-size:12px;">
+                            {{$error}}
+                        </div>
+                    @endforeach
+                @endif
                 <div class="form-input">
                     <label for="name">Your Name <span class="required">*</span></label>
                     <input type="text" autocomplete="off" autofocus required name="name" id="name">
@@ -42,20 +54,8 @@
                     <input type="text" autocomplete="off" autofocus required name="email" id="email">
                 </div>
                 <div class="form-input">
-                    <label for="username">Username <span class="required">*</span></label>
-                    <input type="text" autocomplete="off" autofocus required name="username" id="username">
-                </div>
-                <div class="form-input">
                     <label for="new_password">Create Password <span class="required">*</span></label>
-                    <input type="text" autocomplete="off" autofocus required name="new_password" id="new_password">
-                </div>
-                <div class="form-input">
-                    <label for="confirm_password">Confirm Password <span class="required">*</span></label>
-                    <input type="text" autocomplete="off" autofocus required name="confirm_password" id="confirm_password">
-                </div>
-                <div class="terms">
-                    <input required type="checkbox" name="terms" id="terms">
-                    <label for="terms">I agree to the <a href="#">Terms</a> and <a href="#">Conditions</a></label>
+                    <input type="password" autocomplete="off" autofocus required name="password" id="new_password">
                 </div>
                 <div class="submit-btn">
                     <button type="submit"><i class="fa-solid fa-right-to-bracket"></i> Register</button>

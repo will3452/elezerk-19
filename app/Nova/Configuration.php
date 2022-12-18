@@ -3,31 +3,35 @@
 namespace App\Nova;
 
 use App\Nova\Traits\AdministratorTraits;
-use App\Nova\Traits\PublicTraits;
+use App\Nova\Traits\SettingTraits;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Event extends Resource
+class Configuration extends Resource
 {
-    use AdministratorTraits, PublicTraits;
+
+
+    public static function group () {
+        return "Settings";
+    }
+
+    use AdministratorTraits, SettingTraits;
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Event>
+     * @var class-string<\App\Models\Configuration>
      */
-    public static $model = \App\Models\Event::class;
+    public static $model = \App\Models\Configuration::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -36,8 +40,6 @@ class Event extends Resource
      */
     public static $search = [
         'id',
-        'name',
-        'description',
     ];
 
     /**
@@ -49,14 +51,10 @@ class Event extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Date::make('Date', 'created_at')
-                ->sortable()
-                ->exceptOnForms(),
-            Text::make('Name')
-                ->rules(['required']),
-            Textarea::make('Description')
-                ->rules(['required']),
-            DateTime::make('Date & Time', 'datetime')
+            Text::make('Key')
+                ->rules(['required'])
+                ->help('valid keys; about,address, phone, email, link_1, link_2, link_3, facebook, twitter, instagram'),
+            Textarea::make('Value')
                 ->rules(['required']),
         ];
     }

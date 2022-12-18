@@ -12,6 +12,7 @@ class Bid extends Model
 
     protected $fillable = [
        'topic',
+       'category',
        'description',
        'attachment',
        'price',
@@ -19,6 +20,7 @@ class Bid extends Model
        'scheduled_date',
        'status',
        'user_id',
+       'result',
     ];
 
     const STATUS_ACTIVE = 'Active';

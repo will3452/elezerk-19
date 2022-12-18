@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Traits\ManageTraits;
 use App\Nova\Traits\SettingTraits;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
@@ -10,8 +11,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Category extends Resource
 {
-    use SettingTraits;
-
+    use SettingTraits, ManageTraits;
     /**
      * The model the resource corresponds to.
      *

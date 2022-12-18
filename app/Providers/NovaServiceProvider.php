@@ -16,7 +16,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
-        Nova::footer(fn() => "Footer Text here");
+        Nova::footer(fn() => "");
         Nova::withBreadcrumbs();
         // Nova::withoutNotificationCenter();
     }
@@ -59,6 +59,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             new \App\Nova\Dashboards\Main,
+            new \App\Nova\Dashboards\Calendar,
         ];
     }
 

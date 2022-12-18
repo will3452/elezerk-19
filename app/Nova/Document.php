@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Nova\Actions\CreateAccess;
 use App\Nova\Traits\AdministratorTraits;
+use App\Nova\Traits\RecordTraits;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
@@ -17,7 +18,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Document extends Resource
 {
-    use AdministratorTraits;
+    use AdministratorTraits, RecordTraits;
 
     public static function indexQuery(NovaRequest $request, $query)
     {

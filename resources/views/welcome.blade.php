@@ -14,9 +14,9 @@
     <div class="header-container">
         <ul>
             <a href="#" class="active"><li>HOME</li></a>
-            <a href="#" class="menu-btn"><li>ABOUT</li></a>
-            <a href="#" class="menu-btn"><li>ANNOUNCEMENTS</li></a>
-            <a href="#" class="menu-btn"><li>BAC SCHEDULES</li></a>
+            <a href="#about" class="menu-btn"><li>ABOUT</li></a>
+            <a href="/app/resources/announcements" class="menu-btn"><li>ANNOUNCEMENTS</li></a>
+            <a href="/app/resources/bids" class="menu-btn"><li>BAC SCHEDULES</li></a>
             <a href="/app" class="menu-btn"><li>LOGIN</li></a>
             <a href="/register" class="menu-btn"><li>REGISTER</li></a>
         </ul>
@@ -28,7 +28,7 @@
         <h1>Announcements</h1>
         @foreach (\App\Models\Announcement::latest()->take(5)->get() as $item)
         <center>
-            <a href="#">
+            <a href="/app/resources/announcements">
                 <div class="announcement-1" style="background: linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(117, 26, 19, 0.73)),
                 url(/storage/{{$item->image}}) center/cover no-repeat;">
                     <div class="tag"><span>Announcement</span></div>
@@ -48,7 +48,7 @@
 
         <center>
             <div class="load-more-announcement">
-                <a href="#"><i class="fa-solid fa-angles-down"></i> See more...</a>
+                <a href="/app/resources/announcements"><i class="fa-solid fa-angles-down"></i> See more...</a>
             </div>
         </center>
     </div>
@@ -60,7 +60,7 @@
         </div>
         <div class="upcoming-schedule-content">
            @foreach (\App\Models\Event::whereDate('datetime', '>=',  now())->orderBy('datetime', 'ASC')->latest()->take(10)->get() as $item)
-            <div class="upcoming-container">
+            <a class="upcoming-container" href="/app/resources/events/{{$item->id}}">
                 <div class="calendar-card">
                     <div class="upcoming-card-header">
                         {{$item->datetime->format('d')}}
@@ -73,19 +73,16 @@
                     <h3>{{$item->name}}</h3>
                     <h5>Event</h5>
                 </div>
-            </div>
+            </a>
            @endforeach
 
         </div>
     </div>
 
-    <div class="background background-filter">
-        <h1 class="u-non-blurred">About Us</h1>
-        <p class="p-non-blurred">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Similique soluta magni, commodi deserunt tempora suscipit laudantium provident sunt nobis modi consequuntur ea laborum aspernatur dignissimos, corrupti beatae? Beatae tenetur, ex culpa aut expedita reprehenderit magnam aliquid inventore deserunt repellendus doloribus incidunt assumenda animi mollitia nesciunt ratione. In harum accusamus pariatur!
-        </p>
-        <div class="p-non-blurred div">
-            <a href="#">Read More <i class="fa-solid fa-arrow-right"></i></a>
+    <div style="text-align:center" id="about">
+        <h1>About</h1>
+        <div style="width: 70%; margin:auto;">
+            {{conf('about')}}
         </div>
     </div>
 
@@ -93,21 +90,21 @@
     <div class="footer">
         <div class="footer-section">
             <h4>CNSC Bids and Awards Committee</h4>
-            <span><i class="fa-solid fa-house"></i> Complete Address Here</span>
-            <span><i class="fa-solid fa-phone"></i> +63 912 345 6789</span>
-            <span><i class="fa-solid fa-envelope"></i> emailaddress@email.com</span>
+            <span><i class="fa-solid fa-house"></i> {{conf('address')}}</span>
+            <span><i class="fa-solid fa-phone"></i> {{conf('phone')}}</span>
+            <span><i class="fa-solid fa-envelope"></i> {{conf('email')}}</span>
         </div>
         <div class="footer-section">
             <h4>Resources</h4>
-            <span><li>Lorem ipsum dolor sit, amet consectetur adipisicing.</li></span>
-            <span><li>Lorem ipsum dolor sit amet consectetur.</li></span>
-            <span><li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li></span>
+            <span><li>{{conf('link_1')}}</li></span>
+            <span><li>{{conf('link_2')}}</li></span>
+            <span><li>{{conf('link_3')}}</li></span>
         </div>
         <div class="footer-section">
             <h4>Social Media</h4>
-            <span><a href="#" class="fb"><i class="fa-brands fa-facebook"></i> Facebook Here</a></span>
-            <span><a href="#" class="tw"><i class="fa-brands fa-twitter"></i> Twitter Here</a></span>
-            <span><a href="#" class="ig"><i class="fa-brands fa-instagram"></i> Instagram Here</a></span>
+            <span><a href="{{conf('facebook')}}" class="fb"><i class="fa-brands fa-facebook"></i> Facebook</a></span>
+            <span><a href="{{conf('twiter')}}" class="tw"><i class="fa-brands fa-twitter"></i> Twitter</a></span>
+            <span><a href="{{conf('instragram')}}" class="ig"><i class="fa-brands fa-instagram"></i> Instagram</a></span>
         </div>
     </div>
 

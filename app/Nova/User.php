@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use App\Models\User as ModelsUser;
 use App\Nova\Traits\AdministratorTraits;
+use App\Nova\Traits\ManageTraits;
 use App\Nova\Traits\SettingTraits;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules;
@@ -16,7 +17,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
 {
-    use AdministratorTraits, SettingTraits;
+    use AdministratorTraits, SettingTraits, ManageTraits;
     /**
      * The model the resource corresponds to.
      *

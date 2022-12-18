@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Traits\AdministratorTraits;
+use App\Nova\Traits\PublicTraits;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
@@ -13,7 +14,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Announcement extends Resource
 {
-    use AdministratorTraits;
+    use AdministratorTraits, PublicTraits;
     /**
      * The model the resource corresponds to.
      *

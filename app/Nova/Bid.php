@@ -2,8 +2,11 @@
 
 namespace App\Nova;
 
+use App\Models\Category;
+use App\Nova\Actions\AddBidResult;
 use App\Nova\Actions\InviteParticipant;
 use App\Nova\Traits\AdministratorTraits;
+use App\Nova\Traits\RecordTraits;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Badge;
@@ -12,13 +15,14 @@ use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Bid extends Resource
 {
-    use AdministratorTraits;
+    use AdministratorTraits, RecordTraits;
     /**
      * The model the resource corresponds to.
      *
@@ -63,7 +67,9 @@ class Bid extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-
+            Select::make('Category')
+                ->options(Category::get()->pluck('name', 'name'))
+                ->rules(['required']),
             DateTime::make('Schedule', 'scheduled_date')
                 ->rules(['required']),
             Text::make('Topic')->rules(['required']),
@@ -79,6 +85,9 @@ class Bid extends Resource
                     'Active' => 'info',
                     'Done' => 'Success',
                 ]),
+            Textarea::make('Result')
+                ->exceptOnForms()
+                ->alwaysShow(),
             HasMany::make('Participants', 'participants', Participant::class),
         ];
     }
@@ -126,6 +135,7 @@ class Bid extends Resource
     {
         return [
             InviteParticipant::make()->canRun(fn () => auth()->user()->type == \App\Models\User::TYPE_ADMIN),
+            AddBidResult::make()->canRun(fn () => auth()->user()->type == \App\Models\User::TYPE_ADMIN),
         ];
     }
 }
