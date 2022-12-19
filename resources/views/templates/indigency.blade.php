@@ -1,14 +1,6 @@
 <x-print>
-
+    <x-header></x-header>
     <div class="text-center">
-        <div class="text-xl">
-            <h2 class="font-bold">REPUBLIC OF THE PHILIPPINES</h2>
-            <p class="text-sm">Province of Tarlac</p>
-            <p class="text-sm">Municipality of Lapaz</p>
-            <p class="text-sm font-bold">BARANGAY GUEVARA</p>
-            </div>
-        <br/>
-        <hr>
         <h1 class="my-5 text-2xl text-center uppercase font-bold">Barangay Indigency</h1>
         <div class="text-left font-serif text-xl">
             <p>To whom it may concern.</p>
@@ -21,24 +13,24 @@
         </div>
     </div>
 
-    <div id="footer" class="mt-6">
-        <div class="flex items-center justify-between">
-            <div>
-                <div>
-                    __________________________
-                </div>
-                <div class="font-bold text-xs">Signature of requestor</div>
-            </div>
-            <div>
-
-                <div class="font-bold text-xs">Certified By: </div>
-                <div>
-                    __________________________
-                </div>
-
-                <div class="font-bold text-xs">Punong Barangay</div>
-            </div>
+    <div class="mt-8 text-right uppercase">
+        <div>
+            HON. PRIMO G. FAJARDO
+        </div>
+        <div class="text-xs">
+            Punong Barangay
         </div>
     </div>
+    <div class="mt-4 text-left">
+        <div>
+            Prepared/Verified By:
+        </div>
+        <div>
+            ABEGAIL N. VALDOZ
+        </div>
+        <div class="text-xs">
+            Barangay Secretary
+        </div>
+</div>
 
 </x-print>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-4">
+
+    <div class="relative flex justify-between">
+        <img src="../../../public/guevara.jpg" alt="" width="100">
+        <img src="../../../public/lapaz.png" alt="" width="100">
+    </div>
+
+    <div class="font-serif">
+        <div class="text-center font-mono">
+            <div>
+                Republic of the Philippines
+            </div>
+            <div>
+                Province of Tarlac
+            </div>
+            <div>
+                Municipality of La Paz
+            </div>
+            <div class="uppercase font-bold">
+                Barangay Guevara
+            </div>
+        </div>
+
+
+        <h1 class="text-2xl text-center font-serif mt-4">OFFICE OF THE PUNONG BARANGAY</h1>
+        <h2 class="text-center font-serif text-xl font-bold">Certificate of Residency</h2>
+
+        <div>
+            To whom it may concern:
+        </div>
+        <div>
+            This is to certify that <span class="underline">{{$citizen->first_name}} {{$citizen->last_name}}</span>, <span class="underline">{{$citizen->dob->age}}</span> years old, single,married, widow is a bonafide residence of Purok ____ Barangay Guevara, Lapaz, Tarlac.
+        </div>
+        <div>
+            Further certifies that above named person has been staying this in the barangay ___________________.
+        </div>
+        <div>
+            ISSUED this <span class="underline">{{now()->format('d')}}</span> day of <span class="underline">{{now()->format('M')}}</span>, {{now()->format('Y')}} here at Barangay Guevara, La Paz, Tarlac upon request whatever legal intent it may serve.
+        </div>
+        <div class="mt-8 text-right uppercase">
+            <div>
+                HON. PRIMO G. FAJARDO
+            </div>
+            <div class="text-xs">
+                Punong Barangay
+            </div>
+        </div>
+        <div class="mt-4">
+            <div>
+                Prepared/Verified By:
+            </div>
+            <div>
+                ABEGAIL N. VALDOZ
+            </div>
+            <div class="text-xs">
+                Barangay Secretary
+            </div>
+        </div>
+    </div>
+</body>
+</html>

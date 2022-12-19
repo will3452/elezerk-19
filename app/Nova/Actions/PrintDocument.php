@@ -42,6 +42,7 @@ class PrintDocument extends Action
                 ->options([
                     'clearance' => 'clearance',
                     'indigency' => 'indigency',
+                    'certificate' => 'certificate',
                 ])
         ];
     }

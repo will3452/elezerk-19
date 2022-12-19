@@ -7,7 +7,8 @@
     <title>Print</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="p-4">
+<body class="p-4 font-serif">
+
    {{$slot}}
 
    <script>
