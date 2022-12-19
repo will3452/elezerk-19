@@ -165,7 +165,7 @@ return [
     */
 
     'brand' => [
-        'logo' => resource_path('/img/sample.png'),
+        'logo' => public_path('/BMS.svg'),
 
         'colors' => [
             "400" => "24, 182, 155, 0.5",
