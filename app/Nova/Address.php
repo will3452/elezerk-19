@@ -49,6 +49,7 @@ class Address extends Resource
             Text::make('Country')
                 ->rules(['required']),
             Select::make('Region')
+                ->displayUsingLabels()
                 ->rules(['required'])
                 ->options(['Region I', 'Region II', 'Region III', 'Region IV-A', 'Region V', 'CAR', 'NCR', 'Mimaropa', 'Region VI', 'Region VII', 'Region VIII', 'Region IX', 'Region X', 'Region XI', 'Region XII', 'Region XIII', 'BARMM']),
             Text::make('Province')
