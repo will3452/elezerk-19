@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Nova\Actions\ChangeStatus;
+use App\Nova\Traits\LibraryTraits;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
@@ -15,12 +16,43 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Order extends Resource
 {
+    use LibraryTraits;
     /**
      * The model the resource corresponds to.
      *
      * @var class-string<\App\Models\Order>
      */
     public static $model = \App\Models\Order::class;
+
+    public static function authorizedToCreate(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToUpdate(Request $request)
+    {
+        return false;
+    }
+
+    public function authorizedToDelete(Request $request)
+    {
+        return false;
+    }
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (auth()->user()->type == \App\Models\User::TYPE_ADMIN) {
+            return $query;
+        }
+        return $query->whereSupplierId(auth()->id());
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.

@@ -14,9 +14,13 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Actions\Order as OrderAction;
+use App\Nova\Filters\Category;
+use App\Nova\Traits\LibraryTraits;
 
 class Product extends Resource
 {
+    use LibraryTraits;
     /**
      * The model the resource corresponds to.
      *
@@ -25,11 +29,36 @@ class Product extends Resource
     public static $model = \App\Models\Product::class;
 
     /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (auth()->user()->type == \App\Models\User::TYPE_ADMIN) {
+            return $query;
+        }
+        return $query->whereUserId(auth()->id());
+    }
+
+    /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
     public static $title = 'name';
+
+    public function authorizedToUpdate(Request $request)
+    {
+        return $this->user_id == auth()->id();
+    }
+
+    public function authorizedToDelete(Request $request)
+    {
+        return $this->user_id == auth()->id();
+    }
 
     /**
      * The columns that should be searched.
@@ -97,7 +126,10 @@ class Product extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            Category::make(),
+            \App\Nova\Filters\Brand::make(),
+        ];
     }
 
     /**
@@ -119,6 +151,9 @@ class Product extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            OrderAction::make()
+                ->canRun(fn () => $this->user_id != auth()->id()),
+        ];
     }
 }

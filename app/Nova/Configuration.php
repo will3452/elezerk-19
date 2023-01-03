@@ -2,14 +2,16 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use App\Nova\Traits\AdministratorTraits;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Configuration extends Resource
 {
+    use AdministratorTraits;
     /**
      * The model the resource corresponds to.
      *

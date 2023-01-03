@@ -3,13 +3,16 @@
 namespace App\Nova\Actions;
 
 use App\Models\Sale;
+use App\Models\Product;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Support\Collection;
-use Laravel\Nova\Actions\Action;
-use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Actions\Action;
+use Illuminate\Support\Collection;
+use Laravel\Nova\Fields\ActionFields;
+use function PHPUnit\Framework\isNull;
+use Illuminate\Queue\InteractsWithQueue;
+
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ChangeStatus extends Action
@@ -26,6 +29,9 @@ class ChangeStatus extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         foreach ($models as $model) {
+            if ( $model->supplier_id && auth()->user()->type == \App\Models\User::TYPE_ADMIN) {
+                return Action::danger('Invalid Action. Please wait for supplier/company to change the status');
+            }
             $model->update([
                 'status' => $fields['new_status'],
             ]);
@@ -34,11 +40,37 @@ class ChangeStatus extends Action
             $deductStatus = ['Done'];
 
             if (in_array($fields['new_status'], $deductStatus)) {
+
+
+
                 foreach ($model->orderItems as $item) {
+
+
+
                     $product = $item->product;
-                    $item->product()->update([
-                        'quantity' => $product->quantity - $item->quantity,
-                    ]);
+
+                    if ($fields['new_status'] == 'Done' && $model->supplier_id) {
+                        Product::create([
+                            'user_id' => $model->user_id,
+                            'raw' => $product->raw,
+                            'name' => $product->name,
+                            'category' => $product->category,
+                            'productId' => $product->productId,
+                            'description' => $product->description,
+                            'brand_id' => $product->brand_id,
+                            'image' => $product->image,
+                            'uom' => $product->uom,
+                            'quantity' => $item->quantity,
+                            'unit_cost' => $product->unit_cost,
+                            'product_cost' => $product->product_cost,
+                            'selling_price' => $product->selling_price,
+                        ]);
+                    }
+                    // $item->product()->update([
+                    //     'quantity' => $product->quantity - $item->quantity,
+                    // ]);
+
+                    $item->product()->decrement('quantity', $item->quantity);
 
                     // create sales
                     Sale::create([

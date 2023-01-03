@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Traits\LibraryTraits;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Hidden;
@@ -10,6 +11,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Brand extends Resource
 {
+    use LibraryTraits;
     /**
      * The model the resource corresponds to.
      *

@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Traits\LibraryTraits;
 use Illuminate\Http\Request;
 use Laravel\Nova\Actions\ExportAsCsv;
 use Laravel\Nova\Fields\BelongsTo;
@@ -12,6 +13,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Sale extends Resource
 {
+    use LibraryTraits;
     /**
      * The model the resource corresponds to.
      *

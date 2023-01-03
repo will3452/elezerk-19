@@ -2,19 +2,21 @@
 
 namespace App\Nova;
 
-use App\Models\User as ModelsUser;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rules;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Password;
-use Laravel\Nova\Fields\Select;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Select;
+use Illuminate\Validation\Rules;
+use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\Password;
+use App\Models\User as ModelsUser;
+use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Traits\AdministratorTraits;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
 {
+    use AdministratorTraits;
     /**
      * The model the resource corresponds to.
      *

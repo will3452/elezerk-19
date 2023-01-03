@@ -16,11 +16,16 @@ class Order extends Model
        'shipping_cost',
        'total',
        'mop',
-       'reference'
+       'reference',
+       'supplier_id', // for supplier features
     ];
 
     public function user () { // client
         return $this->belongsTo(User::class);
+    }
+
+    public function supplier () {
+        return $this->belongsTo(User::class, 'supplier_id');
     }
 
     public function orderItems () {

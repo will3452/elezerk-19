@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Traits\AdministratorTraits;
+use App\Nova\Traits\LibraryTraits;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\ID;
@@ -10,6 +12,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Barangay extends Resource
 {
+    use LibraryTraits, AdministratorTraits;
     /**
      * The model the resource corresponds to.
      *

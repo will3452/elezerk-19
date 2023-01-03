@@ -15,5 +15,6 @@ class Address extends Model
        'province',
        'municipality',
        'shipping_cost',
+       'postal_code',
     ];
 }

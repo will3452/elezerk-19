@@ -2,12 +2,13 @@
 
 namespace App\Nova\Metrics;
 
-use App\Models\Sale;
-use Laravel\Nova\Metrics\Value;
+use App\Models\User;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Metrics\Value;
 
-class Sales extends Value
+class Clients extends Value
 {
+    public $icon = 'users';
     /**
      * Calculate the value of the metric.
      *
@@ -16,7 +17,7 @@ class Sales extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->sum($request, Sale::whereUserId(auth()->id()), 'total');
+        return $this->count($request, User::whereType(User::TYPE_CUSTOMER));
     }
 
     /**

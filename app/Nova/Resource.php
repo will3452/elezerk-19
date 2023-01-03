@@ -9,6 +9,14 @@ use Laravel\Nova\Resource as NovaResource;
 abstract class Resource extends NovaResource
 {
     /**
+     * The click action to use when clicking on the resource in the table.
+     * Can be one of: 'detail' (default), 'edit', 'select', 'preview', or 'ignore'.
+     *
+     * @var string
+     */
+    public static $clickAction = 'ignore';
+
+    /**
      * Build an "index" query for the given resource.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request

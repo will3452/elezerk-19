@@ -2,15 +2,20 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Currency;
+use App\Nova\Filters\Province;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Select;
+use App\Nova\Filters\Region;
+use App\Nova\Traits\AdministratorTraits;
+use App\Nova\Traits\LibraryTraits;
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Address extends Resource
 {
+    use LibraryTraits, AdministratorTraits;
     /**
      * The model the resource corresponds to.
      *
@@ -56,6 +61,8 @@ class Address extends Resource
                 ->rules(['required']),
             Text::make('Municipality')
                 ->rules(['required']),
+            Text::make('Postal Code')
+                ->rules(['required']),
             Currency::make('Shipping Cost')
                 ->rules(['required']),
         ];
@@ -80,7 +87,10 @@ class Address extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            Region::make(),
+            Province::make(),
+        ];
     }
 
     /**

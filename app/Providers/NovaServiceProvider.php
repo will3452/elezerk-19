@@ -16,7 +16,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
-        Nova::footer(fn () => 'FOOTER TEXT HERE');
+        Nova::footer(fn () => 'SMART-ECOMMERCE - ' . now()->format('Y'));
     }
 
     /**
