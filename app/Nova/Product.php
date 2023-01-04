@@ -68,6 +68,7 @@ class Product extends Resource
     public static $search = [
         'name',
         'productId',
+        'category'
     ];
 
     /**
@@ -81,8 +82,8 @@ class Product extends Resource
         return [
             Text::make('Name')
                 ->rules(['required']),
-            Boolean::make('Raw'),
-            Text::make('Product ID', 'productId')
+            Boolean::make('TBM', 'raw'),
+            Text::make('ID', 'productId')
                 ->rules(['required']),
             Select::make('Category')
                 ->rules(['required'])
@@ -96,9 +97,9 @@ class Product extends Resource
             Image::make('Image')->rules(['required', 'max:2000']),
             Text::make('UoM')
                 ->rules(['required']),
-            Number::make('Quantity')->rules(['required']),
-            Currency::make('Unit Cost')->rules(['required']),
+            Number::make('SOH', 'quantity')->rules(['required']),
             Currency::make('Product Cost')->rules(['required']),
+            Currency::make('Unit Cost')->rules(['required']),
             Currency::make('Selling Price')->rules(['required']),
             Hidden::make('company_id')
                 ->default(fn () => optional(optional(\App\Models\Company::whereUserId(auth()->id()))->first())->id),

@@ -40,6 +40,7 @@ class Address extends Resource
         'region',
         'province',
         'municipality',
+        'country'
     ];
 
     /**
@@ -56,12 +57,26 @@ class Address extends Resource
             Select::make('Region')
                 ->displayUsingLabels()
                 ->rules(['required'])
-                ->options(['Region I', 'Region II', 'Region III', 'Region IV-A', 'Region V', 'CAR', 'NCR', 'Mimaropa', 'Region VI', 'Region VII', 'Region VIII', 'Region IX', 'Region X', 'Region XI', 'Region XII', 'Region XIII', 'BARMM']),
+                ->options(function () {
+                    $arr = [];
+
+                    $regions = ['Region I', 'Region II', 'Region III', 'Region IV-A', 'Region V', 'CAR', 'NCR', 'Mimaropa', 'Region VI', 'Region VII', 'Region VIII', 'Region IX', 'Region X', 'Region XI', 'Region XII', 'Region XIII', 'BARMM'];
+
+                    foreach ($regions as $region) {
+                        $arr[$region] = $region;
+                    }
+
+                    return $arr;
+                }),
             Text::make('Province')
                 ->rules(['required']),
             Text::make('Municipality')
                 ->rules(['required']),
             Text::make('Postal Code')
+                ->rules(['required']),
+            Text::make('Latitude', 'lat')
+                ->rules(['required']),
+            Text::make('Longitude', 'lng')
                 ->rules(['required']),
             Currency::make('Shipping Cost')
                 ->rules(['required']),

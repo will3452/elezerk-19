@@ -16,5 +16,7 @@ class Address extends Model
        'municipality',
        'shipping_cost',
        'postal_code',
+       'lat',
+       'lng',
     ];
 }
