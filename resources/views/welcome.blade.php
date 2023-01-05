@@ -52,10 +52,10 @@
                                         <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
                                     </div>
                                     <div class="pro-same-action pro-cart">
-                                        <form id="form" method="POST" action="{{route('products.store', ['product' => $item->id])}}">
+                                        <form id="form{{$item->id}}" method="POST" action="{{route('products.store', ['product' => $item->id])}}">
                                             @csrf
                                             <input type="hidden" name="quantity" value="1">
-                                            <a title="Add To Cart" href="#" onclick="document.getElementById('form').submit()"><i class="pe-7s-cart"></i> Add to cart</a>
+                                            <a title="Add To Cart" href="#" onclick="document.getElementById('form{{$item->id}}').submit()"><i class="pe-7s-cart"></i> Add to cart</a>
                                         </form>
                                     </div>
                                     <div class="pro-same-action pro-quickview">
@@ -95,10 +95,10 @@
                                         <a title="Wishlist" href="/add-to-wishlist/{{$item->id}}"><i class="pe-7s-like"></i></a>
                                     </div>
                                     <div class="pro-same-action pro-cart">
-                                        <form id="form" method="POST" action="{{route('products.store', ['product' => $item->id])}}">
+                                        <form id="form{{$item->id}}" method="POST" action="{{route('products.store', ['product' => $item->id])}}">
                                             @csrf
                                             <input type="hidden" name="quantity" value="1">
-                                            <a title="Add To Cart" href="#" onclick="document.getElementById('form').submit()"><i class="pe-7s-cart"></i> Add to cart</a>
+                                            <a title="Add To Cart" href="#" onclick="document.getElementById('form{{$item->id}}').submit()"><i class="pe-7s-cart"></i> Add to cart</a>
                                         </form>
                                     </div>
                                     <div class="pro-same-action pro-quickview">
