@@ -12,7 +12,7 @@ class ProductController extends Controller
     public function search (Request $request) {
         if (! $request->has('keyword')) back();
 
-        $products = Product::where('name', "LIKE", "%$request->keyword%")->get();
+        $products = Product::where('name', "LIKE", "%$request->keyword%")->whereUserId(1)->get();
 
         return view('search', compact('products'));
     }

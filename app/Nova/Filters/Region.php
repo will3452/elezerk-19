@@ -25,7 +25,9 @@ class Region extends Filter
      */
     public function apply(NovaRequest $request, $query, $value)
     {
-        return $query->whereRegion($value);
+        $regions = ['Region I', 'Region II', 'Region III', 'Region IV-A', 'Region V', 'CAR', 'NCR', 'Mimaropa', 'Region VI', 'Region VII', 'Region VIII', 'Region IX', 'Region X', 'Region XI', 'Region XII', 'Region XIII', 'BARMM'];
+
+        return $query->whereRegion($regions[$value]);
     }
 
     /**

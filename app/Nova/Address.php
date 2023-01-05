@@ -40,7 +40,10 @@ class Address extends Resource
         'region',
         'province',
         'municipality',
-        'country'
+        'country',
+        'postal_code',
+        'lat',
+        'lng',
     ];
 
     /**

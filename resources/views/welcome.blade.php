@@ -40,7 +40,7 @@
         <div class="tab-content jump">
             <div class="tab-pane active" id="product-1">
                 <div class="row">
-                    @foreach (\App\Models\Product::whereCategory('NON-FOOD')->get() as $item)
+                    @foreach (\App\Models\Product::whereUserId(1)->whereCategory('NON-FOOD')->get() as $item)
                     <div class="col-xl-3 col-md-6 col-lg-4 col-sm-6">
                         <div class="product-wrap mb-25">
                             <div class="product-img">
@@ -83,7 +83,7 @@
             </div>
             <div class="tab-pane" id="product-2">
                 <div class="row">
-                    @foreach (\App\Models\Product::whereCategory('FOOD')->get() as $item)
+                    @foreach (\App\Models\Product::whereUserId(1)->whereCategory('FOOD')->get() as $item)
                     <div class="col-xl-3 col-md-6 col-lg-4 col-sm-6">
                         <div class="product-wrap mb-25">
                             <div class="product-img">

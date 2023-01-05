@@ -52,6 +52,7 @@
                                 @auth
                                     <li><a href="/home">My account</a></li>
                                     <li><a href="/orders">My Orders</a></li>
+                                    <li><a href="/logout">Logout</a></li>
                                 @endauth
                             </ul>
                         </div>

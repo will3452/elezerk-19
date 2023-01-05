@@ -20,6 +20,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/logout', function () {
+    auth()->logout();
+
+    return back();
+});
+
 
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 Route::get('/remove-to-cart/{item}', [ProductController::class, 'removeToCart'])->name('remove.to.cart');
