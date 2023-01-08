@@ -63,7 +63,6 @@ class Attendance extends Resource
                 ->withoutTrashed(),
             BelongsTo::make('Subject', 'subject', subject::class),
             BelongsTo::make('Section', 'section', section::class),
-
             Text::make('Remarks'),
         ];
     }
