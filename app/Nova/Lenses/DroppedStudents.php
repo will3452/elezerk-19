@@ -20,7 +20,7 @@ class DroppedStudents extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereStatus('Droppped')
+            $query->whereStatus('Dropped')
         ));
     }
 
