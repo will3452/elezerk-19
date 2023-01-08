@@ -29,45 +29,13 @@
                 </div>
             </div>
         </nav>
-        <!-- Header-->
-        <header class="masthead text-center text-white">
-            <div class="masthead-content">
-                <div class="container px-5">
-                    <h1 class="masthead-heading mb-0">DORMITORY</h1>
-                    <h2 class="masthead-subheading mb-0"> MANAGEMENT SYSTEM</h2>
-                    <a class="btn btn-primary btn-xl rounded-pill mt-5" href="/register">SIGN UP NOW</a>
-                </div>
-            </div>
-            <div class="bg-circle-1 bg-circle"></div>
-            <div class="bg-circle-2 bg-circle"></div>
-            <div class="bg-circle-3 bg-circle"></div>
-            <div class="bg-circle-4 bg-circle"></div>
-        </header>
         <!-- Content section 3-->
-        <section>
-            <div class="container px-5">
-                <div class="row gx-5 align-items-center">
-                    <div class="order-lg-1">
-                        <div class="p-5">
-                            <h2 class="display-4">About Us</h2>
-                            <p>
-                                Dormifind is an online platform that ensures and is committed to provide students a secure and comfy dorm with reasonably priced. The system complements centralized operations providing value to the local business by ensuring the most efficient use of capital and keeping partners informed and involved. This platform promotes and grows the business into an industry leader in the dormitory space. It boosts operational efficiency, tech savviness, and consistency in providing a full and rich experience to its customer base. Lastly, it is designed for students and provides housing for big groups of people. Students have the chance to engage in community life while maintaining discipline and fostering character development in settings that are conducive to academic endeavors.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="row gx-5 align-items-center">
-                    <div class="col-lg-6 order-lg-1">
-                        <div class="p-5">
-                            <h2 class="display-4">Contacts</h2>
-                            <ul>
-                                <li>Email: dormifindlopez@gmail.com</li>
-                                <li>Phone: 09496516352</li>
-                                <li>Facebook: Dormifind</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        <section class="mt-5 py-5">
+            <div class="container px-5 mt-5">
+                <form action="">
+                    <h1>Registration</h1>
+                    <input type="text">
+                </form>
             </div>
         </section>
         <!-- Footer-->
