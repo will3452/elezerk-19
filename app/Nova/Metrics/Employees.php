@@ -8,6 +8,9 @@ use Laravel\Nova\Metrics\Value;
 
 class Employees extends Value
 {
+    public function name () {
+        return "Teachers";
+    }
     public $icon = 'briefcase';
     /**
      * Calculate the value of the metric.
@@ -17,7 +20,7 @@ class Employees extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->result(Employee::count());
+        return $this->result(Employee::whereTag('Teacher')->count());
     }
 
     /**

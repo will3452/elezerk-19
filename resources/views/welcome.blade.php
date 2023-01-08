@@ -330,6 +330,7 @@
               </div>
             </div>
             <form action="{{route('inquiry')}}" class="contact-form" method="POST">
+
                 @csrf
               <div class="row">
                 <div class="col-md-6">
@@ -344,7 +345,11 @@
                   <input type="text" required name="phone" id="phone" placeholder="Phone" required />
                 </div>
                 <div class="col-md-6">
-                  <input type="text" required name="subject" id="email" placeholder="Subject" required />
+                  <select name="subject" id="" class="form-select p-3" style="border-radius:50px;">
+                    @foreach (\App\Models\SubjectInquiry::get() as $item)
+                        <option value="{{$item->subject}}">{{$item->subject}}</option>
+                    @endforeach
+                  </select>
                 </div>
               </div>
               <div class="row">

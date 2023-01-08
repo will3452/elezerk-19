@@ -22,12 +22,18 @@ class User extends Authenticatable
         'email',
         'password',
         'type',
+        'tag',
     ];
 
     //
     const TYPE_EMPLOYEE = 'Employee';
     const TYPE_STUDENT = 'Student';
     const TYPE_ADMIN = 'Administrator';
+
+    const TAG_PRINCIPAL = 'Principal';
+    const TAG_GUIDANCE = 'Guidance';
+    const TAG_REGISTRAR = 'Registrar';
+    const TAG_TEACHER = 'Teacher';
 
     /**
      * The attributes that should be hidden for serialization.

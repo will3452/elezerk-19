@@ -15,7 +15,14 @@ class Employee extends Model
         'last_name',
         'employeeId',
         'image',
+        'tag',
     ];
+
+
+    const TAG_PRINCIPAL = 'Principal';
+    const TAG_GUIDANCE = 'Guidance';
+    const TAG_REGISTRAR = 'Registrar';
+    const TAG_TEACHER = 'Teacher';
 
     public function user () {
         return $this->belongsTo(User::class);
@@ -23,5 +30,9 @@ class Employee extends Model
 
     public function teachingLoads () {
         return $this->hasMany(TeachingLoad::class, 'teacher_id');
+    }
+
+    public function requirements () {
+        return $this->morphMany(UserRequirement::class, 'model');
     }
 }

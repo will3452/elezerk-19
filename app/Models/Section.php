@@ -13,6 +13,7 @@ class Section extends Model
         'name',
         'level',
         'adviser_id',
+        'room',
     ];
 
     public function adviser () {
@@ -25,5 +26,19 @@ class Section extends Model
 
     public function enrolledStudents () {
         return $this->hasMany(ApprovedEnrollment::class);
+    }
+
+    public static function available() {
+        $sections = Section::get();
+
+        $a = [];
+
+        foreach ($sections as $section) {
+            if ($section->no_of_students > $section->enrolledStudents()->count()) {
+                $a[] = $section;
+            }
+        }
+
+        return collect($a);
     }
 }

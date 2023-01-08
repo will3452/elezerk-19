@@ -15,6 +15,9 @@ class Enrollment extends Model
         'status',
         'academic_year_id',
         'attachments',
+        'parent',
+        'contact',
+        'address',
     ];
 
     public function student () {

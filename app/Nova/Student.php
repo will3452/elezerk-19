@@ -4,14 +4,19 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Select;
+use App\Nova\Filters\LevelFilter;
+use Laravel\Nova\Fields\MorphMany;
+use App\Nova\Filters\SectionFilter;
+use App\Nova\Lenses\ActiveStudents;
+use App\Nova\Lenses\DroppedStudents;
+use App\Nova\Lenses\PendingStudents;
 use App\Nova\Traits\TransactionTrait;
 use Laravel\Nova\Actions\ExportAsCsv;
 use App\Nova\Traits\RecordAndReportTrait;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use App\Nova\Filters\SectionFilter;
-use App\Nova\Filters\LevelFilter;
 
 class Student extends Resource
 {
@@ -53,10 +58,13 @@ class Student extends Resource
     {
         return [
             Text::make('First Name')
+                ->sortable()
                 ->rules(['required']),
             Text::make('Last Name')
+                ->sortable()
                 ->rules(['required']),
-            Text::make('Middle Name'),
+            Text::make('Middle Name')
+                ->sortable(),
             Text::make('Student LRN', 'studentId')
                 ->rules(['required', 'unique:students,studentId,{{resourceId}}']),
             Select::make('Status')
@@ -66,6 +74,10 @@ class Student extends Resource
                     'Dropped' => 'Dropped',
                     'Graduated' => 'Graduated',
                 ]),
+            Text::make('Parrent Name', 'parent_name'),
+            Date::make('Birthday'),
+            Text::make('Birthplace'),
+            Text::make('Address'),
             Text::make('Parent Email')
                 ->rules(['required', 'email']),
             Select::make('Level')
@@ -78,6 +90,10 @@ class Student extends Resource
                     5 => 5,
                     6 => 6,
                 ]),
+            Text::make('School ID', 'school_id')
+                ->rules(['required']),
+            MorphMany::make('Requirements', 'requirements', UserRequirement::class),
+            Text::make('Requirements', fn () => $this->requirements()->count() . "/" . \App\Models\Requirement::whereType('Student')->count())
         ];
     }
 
@@ -101,8 +117,8 @@ class Student extends Resource
     public function filters(NovaRequest $request)
     {
         return [
-            SectionFilter::make(), 
-            LevelFilter::make(), 
+            SectionFilter::make(),
+            LevelFilter::make(),
         ];
     }
 
@@ -114,7 +130,11 @@ class Student extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            ActiveStudents::make(),
+            PendingStudents::make(),
+            DroppedStudents::make(),
+        ];
     }
 
     /**

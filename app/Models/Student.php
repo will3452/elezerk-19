@@ -18,7 +18,18 @@ class Student extends Model
         'status',
         'level',
         'section_id',
-        'parent_email', 
+        'parent_email',
+        'school_id',
+        'birthday',
+        'birthplace',
+        'address',
+        'parent_name',
     ];
+
+    public function requirements () {
+        return $this->morphMany(UserRequirement::class, 'model');
+    }
+
+    protected $casts = ['birthday' => 'datetime'];
 
 }

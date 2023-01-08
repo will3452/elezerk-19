@@ -2,15 +2,17 @@
 
 namespace App\Nova;
 
-use App\Nova\Traits\AdministratorTrait;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Image;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Actions\ExportAsCsv;
+use App\Nova\Traits\AdministratorTrait;
 use App\Nova\Traits\RecordAndReportTrait;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -23,6 +25,10 @@ class Employee extends Resource
      * @var class-string<\App\Models\Employee>
      */
     public static $model = \App\Models\Employee::class;
+
+    // public static function label () {
+    //     return "Teachers";
+    // }
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -69,10 +75,23 @@ class Employee extends Resource
             Image::make('Image')
                 ->rules(['image', 'max:2000']),
 
+
+            Select::make('Tag')
+                ->rules(['required'])
+                ->options([
+                    \App\Models\Employee::TAG_PRINCIPAL => \App\Models\Employee::TAG_PRINCIPAL,
+                    \App\Models\Employee::TAG_GUIDANCE => \App\Models\Employee::TAG_GUIDANCE,
+                    \App\Models\Employee::TAG_REGISTRAR => \App\Models\Employee::TAG_REGISTRAR,
+                    \App\Models\Employee::TAG_TEACHER => \App\Models\Employee::TAG_TEACHER,
+                ])
+                ->hideWhenUpdating(fn () => auth()->user()->type == \App\Models\User::TYPE_EMPLOYEE),
+
             BelongsTo::make('User', 'user', User::class)
                 ->showCreateRelationButton(),
 
             HasMany::make('Class List', 'teachingLoads', TeachingLoad::class),
+
+            MorphMany::make('Requirements', 'requirements',  UserRequirement::class),
         ];
     }
 

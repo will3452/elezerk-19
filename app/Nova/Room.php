@@ -2,38 +2,28 @@
 
 namespace App\Nova;
 
-use Exception;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Traits\MaintenanceTrait;
-use App\Nova\Actions\AddNewAttendance;
-use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Section extends Resource
+class Room extends Resource
 {
     use MaintenanceTrait;
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Section>
+     * @var class-string<\App\Models\Room>
      */
-    public static $model = \App\Models\Section::class;
+    public static $model = \App\Models\Room::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-
-    public function title () {
-        return "$this->name - $this->level";
-    }
+    public static $title = 'name';
 
     /**
      * The columns that should be searched.
@@ -41,6 +31,7 @@ class Section extends Resource
      * @var array
      */
     public static $search = [
+        'id',
         'name',
     ];
 
@@ -53,26 +44,8 @@ class Section extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Select::make('Level')
-                ->rules(['required'])
-                ->options([
-                    1 => 1,
-                    2 => 2,
-                    3 => 3,
-                    4 => 4,
-                    5 => 5,
-                    6 => 6,
-                ]),
-            Text::make('Section Name', 'name')
-                ->rules(['required']),
-            Number::make('No. Of Students', 'no_of_students')
-                ->rules(['required', 'min:1']),
-            Select::make('Room')
-                ->options(fn () => \App\Models\Room::get()->pluck('name', 'name')),
-            Select::make('Adviser', 'adviser_id')
-                ->options(fn () => \App\Models\Employee::get()->pluck('employeeId', 'id')),
-
-            HasMany::make('Enrolled Students', 'enrolledStudents', ApprovedEnrollment::class),
+            Text::make('Name')
+                ->rules(['required', 'unique:rooms,name,{{resourceId}}'])
         ];
     }
 
@@ -117,14 +90,6 @@ class Section extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        $actionReturn = [];
-    // $sectionId = $request->viaResourceId ?? $request->resourceId;
-
-        // if ($sectionId) {
-        //     $section = \App\Models\Section::find($sectionId);
-        //     $actionReturn[] = new AddNewAttendance($section);
-        // }
-
-        return $actionReturn;
+        return [];
     }
 }

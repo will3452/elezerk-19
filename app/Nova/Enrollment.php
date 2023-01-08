@@ -2,7 +2,6 @@
 
 namespace App\Nova;
 
-use App\Nova\Filters\AcademicYearFilter;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\File;
@@ -12,6 +11,8 @@ use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Traits\TransactionTrait;
 use Laravel\Nova\Actions\ExportAsCsv;
+use Illuminate\Database\Query\Builder;
+use App\Nova\Filters\AcademicYearFilter;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Enrollment extends Resource
@@ -64,13 +65,22 @@ class Enrollment extends Resource
             BelongsTo::make('Student', 'student', Student::class)
                 ->withoutTrashed()
                 ->showCreateRelationButton(),
-            BelongsTo::make('Section', 'section', Section::class),
+            Select::make('Section', 'section_id')
+                ->options(fn () => \App\Models\Section::available()->pluck('name', 'id')),
             Select::make('Status')
                 ->rules(['required'])
                 ->options([
                     'Pending' => 'Pending',
                     'Approved' => 'Approved',
                 ]),
+           Text::make('Parent Name', 'parent')
+                ->sortable()
+                ->rules(['required']),
+            Text::make('Contact')
+                ->rules(['required']),
+            Text::make('Address')
+                ->sortable()
+                ->rules(['required']),
            File::make('Attachments')
                 ->rules(['max:5000']),
         ];
