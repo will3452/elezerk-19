@@ -11,7 +11,7 @@ class Student extends Model
 
     protected $fillable = [
         'room_id',
-        'balance',
+        // 'balance',
         'user_id',
     ];
 

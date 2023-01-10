@@ -2,15 +2,16 @@
 
 namespace App\Nova;
 
-use App\Nova\Traits\LandlordTraits;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Hidden;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Traits\LandlordTraits;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Room extends Resource
@@ -59,6 +60,8 @@ class Room extends Resource
             ]),
             Image::make('Image')->rules(['required', 'image', 'max:3000']),
             Text::make('Description')
+                ->rules(['required']),
+            Number::make('No. Of Beds', 'no_of_beds')
                 ->rules(['required']),
             BelongsTo::make('Type', 'roomType', RoomType::class),
             Currency::make('Monthly')->rules(['required']),

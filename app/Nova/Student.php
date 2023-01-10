@@ -57,8 +57,8 @@ class Student extends Resource
         return [
             BelongsTo::make('User', 'user', User::class)->showCreateRelationButton(),
             BelongsTo::make('Room', 'room', Room::class),
-            Currency::make('Balance')
-                ->rules(['required']),
+            // Currency::make('Balance')
+            //     ->rules(['required']),
             Currency::make('Account Arrears', function () {
                 $user = \App\Models\User::find($this->user_id);
 
