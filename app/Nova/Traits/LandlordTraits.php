@@ -10,9 +10,10 @@ trait LandlordTraits {
         return "LandLord";
     }
 
+
     public static function indexQuery(NovaRequest $request, $query)
     {
-        if (auth()->user()->type == User::TYPE_ADMIN) {
+        if (auth()->user()->type != User::TYPE_LANDLORD) {
             return $query;
         }
         return $query->whereUserId(auth()->id());

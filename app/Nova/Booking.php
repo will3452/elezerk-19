@@ -2,11 +2,13 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\MarkAsDone;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Badge;
+use Laravel\Nova\Fields\Hidden;
+use App\Nova\Actions\MarkAsDone;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\BelongsTo;
 use App\Nova\Traits\LandlordTraits;
 use App\Nova\Traits\QueryByRoomTraits;
@@ -27,6 +29,12 @@ class Booking extends Resource
         if (auth()->user()->type == \App\Models\User::TYPE_ADMIN) {
             return $query;
         }
+
+
+        if (auth()->user()->type == \App\Models\User::TYPE_STUDENT) {
+            return $query->where(['email' => auth()->user()->email]);
+        }
+
         $rooms = auth()->user()->rooms->pluck('id')->all();
         return $query->whereIn('room_id', $rooms);
     }
@@ -36,12 +44,21 @@ class Booking extends Resource
         return false;
     }
 
+    public function authorizedToDelete(Request $request) {
+        return false;
+    }
+
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
     public static $title = 'id';
+
+    public static function redirectAfterCreate(NovaRequest $request, $resource)
+    {
+        return '/resources/'.static::uriKey();
+    }
 
     /**
      * The columns that should be searched.
@@ -66,9 +83,18 @@ class Booking extends Resource
                     'Pending' => 'warning',
                     'Done' => 'success'
                 ]),
-            Text::make('Name')->rules(['required']),
-            Text::make('Phone'),
-            Text::make('Email')->rules(['email']),
+            Hidden::make('name')
+                ->default(fn () => auth()->user()->name),
+            Text::make('Name')
+                ->exceptOnForms()
+                ->rules(['required']),
+            Text::make('Phone')->rules(['required']),
+            Text::make('Email')->rules(['email'])
+                ->exceptOnForms(),
+            Hidden::make('email')
+                ->default(fn () => auth()->user()->email),
+            DateTime::make('Book Date')
+                ->rules(['required']),
             BelongsTo::make('Room', 'room', Room::class),
         ];
     }

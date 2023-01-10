@@ -17,6 +17,18 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class Room extends Resource
 {
     use LandlordTraits;
+
+    public static function authorizedToCreate(Request $request) {
+        return auth()->check() && auth()->user()->type == \App\Models\User::TYPE_LANDLORD;
+    }
+
+    public function authorizedToUpdate(Request $request) {
+        return auth()->user()->type == \App\Models\User::TYPE_LANDLORD;se;
+    }
+
+    public function authorizedToDelete(Request $request) {
+        return auth()->user()->type == \App\Models\User::TYPE_LANDLORD;;
+    }
     /**
      * The model the resource corresponds to.
      *
@@ -50,7 +62,7 @@ class Room extends Resource
     {
         return [
             Badge::make('Available', function () {
-                return ! \App\Models\Student::whereRoomId($this->id)->exists();
+                return \App\Models\Student::whereRoomId($this->id)->count() != $this->no_of_beds;
             })->map([
                 true => 'success',
                 false => 'danger',

@@ -15,6 +15,7 @@ class Booking extends Model
        'name',
        'phone',
        'email',
+       'book_date',
     ];
 
     const STATUS_PENDING = 'Pending';
@@ -23,4 +24,8 @@ class Booking extends Model
     public function room() {
         return $this->belongsTo(Room::class, 'room_id');
     }
+
+    protected $casts = [
+        'book_date' => 'datetime',
+    ];
 }

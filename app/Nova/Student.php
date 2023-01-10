@@ -2,15 +2,21 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\CreateTransactionCharge;
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Currency;
 use Laravel\Nova\Fields\ID;
+use Illuminate\Http\Request;
+use Laravel\Nova\Fields\Currency;
+use Laravel\Nova\Fields\BelongsTo;
+use App\Nova\Traits\LandlordTraits;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use App\Nova\Actions\CreateTransactionCharge;
 
 class Student extends Resource
 {
+    use LandlordTraits;
+
+    public static function availableForNavigation (Request $request) {
+        return auth()->user()->type != \App\Models\User::TYPE_STUDENT;
+    }
     /**
      * The model the resource corresponds to.
      *
