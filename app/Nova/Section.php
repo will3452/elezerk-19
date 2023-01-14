@@ -70,6 +70,7 @@ class Section extends Resource
             Select::make('Room')
                 ->options(fn () => \App\Models\Room::get()->pluck('name', 'name')),
             Select::make('Adviser', 'adviser_id')
+                ->displayUsingLabels()
                 ->options(fn () => \App\Models\Employee::get()->pluck('employeeId', 'id')),
 
             HasMany::make('Enrolled Students', 'enrolledStudents', ApprovedEnrollment::class),

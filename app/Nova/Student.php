@@ -66,7 +66,7 @@ class Student extends Resource
             Text::make('Middle Name')
                 ->sortable(),
             Text::make('Student LRN', 'studentId')
-                ->rules(['required', 'unique:students,studentId,{{resourceId}}']),
+                ->rules(['required']),
             Select::make('Status')
                 ->rules(['required'])
                 ->options([

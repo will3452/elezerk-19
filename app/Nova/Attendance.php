@@ -19,6 +19,11 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class Attendance extends Resource
 {
     use RecordAndReportTrait;
+
+    public static function availableForNavigation(Request $request)
+    {
+        return false;
+    }
     /**
      * The model the resource corresponds to.
      *
