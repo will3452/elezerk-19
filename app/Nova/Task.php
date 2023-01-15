@@ -18,7 +18,7 @@ class Task extends Resource
 {
     public static function authorizedToCreate(Request $request)
     {
-        return auth()->user()->type != \App\Models\User::TYPE_TRAINEE;
+        return auth()->check() && auth()->user()->type != \App\Models\User::TYPE_TRAINEE;
     }
 
     public function authorizedToDelete(Request $request)
