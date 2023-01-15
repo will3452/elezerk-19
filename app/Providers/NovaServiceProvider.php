@@ -29,6 +29,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ->withAuthenticationRoutes()
                 ->withPasswordResetRoutes()
                 ->register();
+
+        Nova::footer(fn () => '');
     }
 
     /**

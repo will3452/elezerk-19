@@ -21,7 +21,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'type',
     ];
+
+
+    const TYPE_ADMIN = 'Administrator';
+    const TYPE_COORDINATOR = 'Coordinator';
+    const TYPE_TRAINEE = 'Trainee';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -41,4 +47,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function trainee () {
+        return $this->hasOne(Trainee::class, 'user_id');
+    }
 }
