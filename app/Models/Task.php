@@ -23,6 +23,10 @@ class Task extends Model
         'deadline' => 'datetime'
     ];
 
+    public function submittedRequirements () {
+        return $this->hasMany(SubmittedRequirement::class, 'task_id');
+    }
+
     public function coordinator () {
         return $this->belongsTo(Coordinator::class, 'coordinator_id');
     }

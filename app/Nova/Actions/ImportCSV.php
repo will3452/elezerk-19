@@ -25,6 +25,9 @@ class ImportCSV extends Action
      */
     public function handle(ActionFields $fields, Collection $models)
     {
+        if (auth()->user()->type == \App\Models\User::TYPE_TRAINEE) {
+            return Action::danger('You\'re not authorized to do this action!');
+        }
         $file = $fields['csv']->store('public');
 
         $csv = fopen(storage_path("/app/" . $file), 'r');

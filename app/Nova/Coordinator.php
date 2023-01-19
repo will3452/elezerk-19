@@ -12,6 +12,39 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Coordinator extends Resource
 {
+    public static function availableForNavigation(Request $request)
+    {
+        if (! auth()->check() ) {
+            return false;
+        }
+
+        if ( auth()->user()->type == \App\Models\User::TYPE_COORDINATOR || auth()->user()->type == \App\Models\User::TYPE_TRAINEE) {
+            return false;
+        }
+        return true;
+    }
+
+    public static function authorizedToCreate(Request $request)
+    {
+        if (! auth()->check() ) {
+            return false;
+        }
+
+        if (auth()->user()->type == \App\Models\User::TYPE_COORDINATOR || auth()->user()->type == \App\Models\User::TYPE_TRAINEE) {
+            return false;
+        }
+        return true;
+    }
+
+    public function authorizedToUpdate(Request $request)
+    {
+        return auth()->user()->type != \App\Models\User::TYPE_TRAINEE;
+    }
+
+    public function authorizedToDelete (Request $request)
+    {
+        return auth()->user()->type != \App\Models\User::TYPE_TRAINEE;
+    }
     /**
      * The model the resource corresponds to.
      *

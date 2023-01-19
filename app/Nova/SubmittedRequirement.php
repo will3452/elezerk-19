@@ -2,24 +2,41 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class SchoolYear extends Resource
+class SubmittedRequirement extends Resource
 {
-    public static function availableForNavigation(Request $request)
+    public static function authorizedToCreate(Request $request)
     {
-        return auth()->user()->type != \App\Models\User::TYPE_TRAINEE;
+        return false;
     }
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\SchoolYear>
+     * @var class-string<\App\Models\SubmittedRequirement>
      */
-    public static $model = \App\Models\SchoolYear::class;
+    public static $model = \App\Models\SubmittedRequirement::class;
+
+    /**
+     * Build an "index" query for the given resource.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (auth()->user()->type != \App\Models\User::TYPE_TRAINEE) {
+            return $query;
+        }
+        $traineeId = auth()->user()->trainee->id;
+        return $query->whereTraineeId($traineeId);
+    }
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -34,7 +51,10 @@ class SchoolYear extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'from', 'to',
+        'id',
+        'trainee_id',
+        'task_id',
+        'created_at',
     ];
 
     /**
@@ -46,16 +66,13 @@ class SchoolYear extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('From')
-                ->rules(['required'])
+            Date::make('Date', 'created_at')
                 ->sortable(),
-
-            Text::make('To')
-                ->rules(['required'])
-                ->sortable(),
-
-            Boolean::make('Default'),
-
+            BelongsTo::make('Task', 'task', Task::class),
+            BelongsTo::make('Trainee', 'trainee', Trainee::class),
+            File::make('File')
+                ->rules(['max:5000'])
+                ->acceptedTypes('.jpg,.png,.pdf,.gif,.jpeg')
         ];
     }
 

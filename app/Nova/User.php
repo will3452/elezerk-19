@@ -13,6 +13,47 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
 {
+
+    public static function availableForNavigation(Request $request)
+    {
+        return auth()->check() && auth()->user()->type != \App\Models\User::TYPE_TRAINEE;
+    }
+
+    public static function authorizedToCreate(Request $request)
+    {
+        return auth()->check() && auth()->user()->type != \App\Models\User::TYPE_TRAINEE;
+    }
+
+    public function authorizedToUpdate(Request $request)
+    {
+        if (auth()->user()->type == \App\Models\User::TYPE_TRAINEE) {
+            return false;
+        }
+
+        if (auth()->user()->type == \App\Models\User::TYPE_ADMIN) {
+            return true;
+        }
+
+        if (auth()->id() != $this->id) {
+            return false;
+        }
+
+
+        return true;
+    }
+
+    public function authorizedToDelete(Request $request)
+    {
+        if (auth()->user()->type == \App\Models\User::TYPE_TRAINEE) {
+            return false;
+        }
+
+        if (auth()->user()->type == \App\Models\User::TYPE_ADMIN) {
+            return true;
+        }
+
+        return false;
+    }
     /**
      * The model the resource corresponds to.
      *

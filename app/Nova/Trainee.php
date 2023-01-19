@@ -15,6 +15,51 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Trainee extends Resource
 {
+    public static function availableForNavigation(Request $request)
+    {
+        return auth()->check() && auth()->user()->type != \App\Models\User::TYPE_TRAINEE;
+    }
+
+    public static function authorizedToCreate(Request $request)
+    {
+        return auth()->check() && auth()->user()->type != \App\Models\User::TYPE_TRAINEE;
+    }
+
+    public function authorizedToUpdate(Request $request)
+    {
+        if (auth()->user()->type == \App\Models\User::TYPE_TRAINEE) {
+            return false;
+        }
+
+        if (auth()->user()->type != \App\Models\User::TYPE_TRAINEE) {
+            return true;
+        }
+
+        if (auth()->id() != $this->id) {
+            return false;
+        }
+
+
+        return true;
+    }
+
+    public function authorizedToDelete(Request $request)
+    {
+        if (auth()->user()->type == \App\Models\User::TYPE_TRAINEE) {
+            return false;
+        }
+
+        if (auth()->user()->type != \App\Models\User::TYPE_TRAINEE) {
+            return true;
+        }
+
+        if (auth()->id() != $this->id) {
+            return false;
+        }
+
+        return true;
+    }
+
     /**
      * Build an "index" query for the given resource.
      *
@@ -43,7 +88,7 @@ class Trainee extends Resource
      */
 
      public function title () {
-        return "$this->last_name, $this->first_name $this->middle_name[0].";
+        return "$this->last_name, $this->first_name";
      }
 
     /**
@@ -145,7 +190,8 @@ class Trainee extends Resource
     {
         return [
             ExportAsCsv::make(),
-            ImportCSV::make()->standalone(),
+            ImportCSV::make()
+                ->standalone(),
         ];
     }
 }

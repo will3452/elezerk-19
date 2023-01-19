@@ -15,6 +15,11 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ArchiveStudent extends Resource
 {
+    public static function availableForNavigation(Request $request)
+    {
+        return auth()->user()->type != \App\Models\User::TYPE_TRAINEE;
+    }
+
     public static function authorizedToCreate(Request $request)
     {
         return false;
@@ -29,9 +34,9 @@ class ArchiveStudent extends Resource
      */
     public static function indexQuery(NovaRequest $request, $query)
     {
-        $sy = \App\Models\SchoolYear::where('default', 0)->latest()->first();
+        $sy = \App\Models\SchoolYear::where('default', 1)->latest()->first();
         $syStr = "$sy->from - $sy->to";
-        return $query->whereSchoolYear($syStr);
+        return $query->where('school_year', '!=', $syStr);
     }
 
     /**

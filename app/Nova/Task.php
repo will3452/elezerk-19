@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\ChangeTaskStatus;
+use App\Nova\Actions\SubmitRequirement;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
@@ -10,6 +12,7 @@ use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -119,6 +122,19 @@ class Task extends Resource
                 ->default(fn () => optional(\App\Models\Coordinator::whereUserId(auth()->id())->first())->id ?? 1),
             BelongsTo::make('Coordinator', 'coordinator', Coordinator::class)
                 ->exceptOnForms(),
+
+            Text::make('Submitted', function () {
+                if (auth()->user()->type == \App\Models\User::TYPE_TRAINEE) {
+                    return \App\Models\SubmittedRequirement::whereTraineeId(auth()->user()->trainee->id)->whereTaskId($this->id)->exists() ? 'SUBMITTED' : 'NOT YET';
+                }
+
+                $submitted = \App\Models\SubmittedRequirement::whereTaskId($this->id)->distinct('trainee_id')->count();
+                $total = \App\Models\Trainee::whereSection($this->section)->whereSchoolYear($this->school_year)->count();
+
+
+                return "$submitted / $total";
+            }),
+            HasMany::make('Submission', 'submittedRequirements', SubmittedRequirement::class),
         ];
     }
 
@@ -163,6 +179,11 @@ class Task extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            SubmitRequirement::make()
+                ->canRun(fn () => auth()->user()->type == \App\Models\User::TYPE_TRAINEE),
+            ChangeTaskStatus::make()
+                ->canSee(fn () => auth()->user()->type != \App\Models\User::TYPE_TRAINEE),
+        ];
     }
 }
