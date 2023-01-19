@@ -30,7 +30,7 @@
                                     <th>Status</th>
                                     <th>Mode Of Payment</th>
                                     <th>Grand Total</th>
-                                    <th>Action</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -45,14 +45,15 @@
                                             {{$item->mop}}
                                         </td>
                                         <td class="product-subtotal">PHP {{number_format($item->total, 2)}}</td>
+
                                         <td class="product-wishlist-cart">
-                                            <form id="{{$item->reference}}" action="{{route('orders.cancel', ['order' => $item->id])}}" method="POST">
-                                                @csrf
-                                            </form>
+
+                                            <a href="/invoice/{{$item->id}}" style="display: inline-block;margin-bottom: 1em;">VIEW INVOICE</a>
+
                                             @if ($item->status == \App\Models\Order::STATUS_PENDING)
-                                                <a href="#" onclick="document.getElementById('{{$item->reference}}').submit()">CANCEL ORDER</a>
+                                                <a href="{{route('orders.cancel', ['order' => $item->id])}}" style="display: inline-eblock;" >CANCEL ORDER</a>
                                             @else
-                                                <p>CANCEL ORDER</p>
+                                                <p style="color: #ddd;">CANCEL ORDER</p>
                                             @endif
                                         </td>
                                     </tr>

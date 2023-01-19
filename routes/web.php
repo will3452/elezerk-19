@@ -3,6 +3,7 @@
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\WishlistController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,12 +44,17 @@ Route::post('/add-review/{product}', [ProductController::class, 'addReview'])->n
 Route::prefix('orders')->name('orders.')->group(function () {
     Route::get('/', [OrderController::class, 'index'])->name('index');
     Route::post('/', [OrderController::class, 'store'])->name('store');
-    Route::post('/cancel/{order}', [OrderController::class, 'cancel'])->name('cancel');
+    Route::get('/cancel/{order}', [OrderController::class, 'cancel'])->name('cancel');
 });
 
 Auth::routes();
 
 Route::get('/search', [ProductController::class, 'search']);
+
+Route::get('/invoice/{order}', function (Order $order) {
+    $order->load(['user.barangay']);
+    return view('invoice', compact('order'));
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::view('/about', 'about');

@@ -29,11 +29,14 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6">
+            <div class="col-lg-6 col-md-6" x-data="{
+                sellingPrice: {{$product->selling_price}},
+                qty: 1
+            }">
                 <div class="product-details-content ml-70">
                     <h2>{{$product->name}}</h2>
                     <div class="product-details-price">
-                        <span>PHP {{number_format($product->selling_price, 2)}}</span>
+                        <span>PHP <span x-text="sellingPrice"></span></span>
                     </div>
                     {{-- <div class="pro-details-rating-wrap">
                         <div class="pro-details-rating">
@@ -52,7 +55,7 @@
                     <form  id="form" class="pro-details-quality" method="POST" action="{{route('products.store', ['product' => $product->id])}}">
                         @csrf
                         <div class="cart-plus-minus">
-                            <input class="cart-plus-minus-box" name="quantity" min="1" type="text" name="qtybutton" value="2">
+                            <input class="cart-plus-minus-box" name="quantity" min="1" type="number" name="qtybutton" x-model="qty">
                         </div>
                         <div class="pro-details-cart btn-hover">
                             <a href="#" onclick="document.getElementById('form').submit()">Add To Cart</a>
@@ -65,6 +68,14 @@
                         <span>Category :</span>
                         <ul>
                             <li><a href="#">{{$product->category}}</a></li>
+                        </ul>
+
+
+                    </div>
+                    <div class="pro-details-meta">
+                        <span>Stock on Hand :</span>
+                        <ul>
+                            <li><a href="#">{{$product->quantity}}</a></li>
                         </ul>
                     </div>
                 </div>

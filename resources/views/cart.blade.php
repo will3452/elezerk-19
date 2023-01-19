@@ -46,7 +46,8 @@
                                            <input type="number" x-model:value="quantity" min="1">
                                         </td>
                                         <td class="product-subtotal">
-                                            PHP {{number_format($item->product->selling_price * $item->quantity, 2)}}
+                                            {{-- PHP {{number_format($item->product->selling_price * $item->quantity, 2)}} --}}
+                                            PHP <span x-text="{{$item->product->selling_price}} * quantity"></span>
                                         </td>
                                         <td class="product-remove">
                                             <a x-bind:href="'/update-cart/{{$item->id}}?quantity=' + quantity"><i class="fa fa-check"></i></a>

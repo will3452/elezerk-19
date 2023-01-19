@@ -14,6 +14,10 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 class Company extends Resource
 {
     use LibraryTraits;
+
+    public static function label () {
+        return "Supplier";
+    }
     /**
      * The model the resource corresponds to.
      *

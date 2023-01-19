@@ -78,6 +78,13 @@ class User extends Authenticatable
         return $this->total_product + $shipping;
     }
 
+    public function getFullAddressAttribute() {
+        $address = $this->barangay->address;
+        $bgy = $this->barangay;
+
+        return "$bgy->name, $address->municipality, $address->province, $address->region, $address->country";
+    }
+
     public function getShippingFeeAttribute() {
         try {
             $fee = $this->barangay->address->shipping_cost;
