@@ -91,7 +91,7 @@
     <div id="des-details3" class="container">
         <div class="row">
             <div class="col-lg-7">
-                @foreach ($product->reviews as $item)
+                @foreach ($product->reviews()->whereHide(0)->get() as $item)
                 <div class="review-wrapper">
                     <div class="single-review">
                         <div class="review-content">

@@ -5,24 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Review extends Model
+class Refund extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'reason',
         'user_id',
-        'product_id',
-        'message',
-        'hide',
-        'star',
+        'phone',
+        'status',
+        'image',
     ];
+
+    const STATUS_PENDING = 'Pending';
+    const STATUS_DONE = 'Done';
 
     public function user () {
         return $this->belongsTo(User::class);
     }
-
-    public function product () {
-        return $this->belongsTo(Product::class);
-    }
-
 }

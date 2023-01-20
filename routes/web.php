@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RefundController;
 use App\Http\Controllers\WishlistController;
 use App\Models\Order;
 use Illuminate\Support\Facades\Route;
@@ -59,3 +60,8 @@ Route::get('/invoice/{order}', function (Order $order) {
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::view('/about', 'about');
 Route::view('/contact', 'contact');
+
+Route::prefix('refunds')->name('refunds.')->middleware('auth')->group(function () {
+    Route::get('/', [RefundController::class, 'index'])->name('index');
+    Route::post('/', [RefundController::class, 'store']);
+});
