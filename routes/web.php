@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\RefundController;
-use App\Http\Controllers\WishlistController;
 use App\Models\Order;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\RefundController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\WishlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,4 +65,10 @@ Route::view('/contact', 'contact');
 Route::prefix('refunds')->name('refunds.')->middleware('auth')->group(function () {
     Route::get('/', [RefundController::class, 'index'])->name('index');
     Route::post('/', [RefundController::class, 'store']);
+});
+
+Route::get('/order-received/{order}', function (Request $req, Order $order) {
+    $order->update(['done' => 1]);
+    alert()->success('Mark as received!');
+    return back();
 });

@@ -47,6 +47,9 @@
                                         <td class="product-subtotal">PHP {{number_format($item->total, 2)}}</td>
 
                                         <td class="product-wishlist-cart">
+                                            @if (! $item->done)
+                                                <a href="/order-received/{{$item->id}}" style="display: inline-block;margin-bottom: 1em;">ORDER RECEIVED</a>
+                                            @endif
 
                                             <a href="/invoice/{{$item->id}}" style="display: inline-block;margin-bottom: 1em;">VIEW INVOICE</a>
 

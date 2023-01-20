@@ -16,6 +16,7 @@ class Order extends Model
        'shipping_cost',
        'total',
        'mop',
+       'done',
        'reference',
        'supplier_id', // for supplier features
     ];
