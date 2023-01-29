@@ -16,6 +16,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+        Nova::withoutThemeSwitcher();
     }
 
     /**
@@ -29,6 +30,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ->withAuthenticationRoutes()
                 ->withPasswordResetRoutes()
                 ->register();
+        Nova::footer(function () {
+            return "";
+        });
     }
 
     /**

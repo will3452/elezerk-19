@@ -7,11 +7,16 @@ use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class User extends Resource
 {
+    public static function availableForNavigation(Request $request)
+    {
+        return auth()->user()->type == \App\Models\User::TYPE_ADMIN;
+    }
     /**
      * The model the resource corresponds to.
      *
@@ -44,13 +49,17 @@ class User extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            ID::make()->sortable(),
-
-            Gravatar::make()->maxWidth(50),
 
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
+
+            Select::make('Type')
+                ->options([
+                    \App\Models\User::TYPE_ADMIN => \App\Models\User::TYPE_ADMIN,
+                    \App\Models\User::TYPE_CUSTOMER => \App\Models\User::TYPE_CUSTOMER,
+                    \App\Models\User::TYPE_OWNER => \App\Models\User::TYPE_OWNER,
+                ])->rules(['required']),
 
             Text::make('Email')
                 ->sortable()

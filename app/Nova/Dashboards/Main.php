@@ -2,10 +2,13 @@
 
 namespace App\Nova\Dashboards;
 
-use Laravel\Nova\Cards\Help;
-use Laravel\Nova\Dashboards\Main as Dashboard;
+use App\Models\User;
+use App\Nova\Metrics\Users;
+use App\Nova\Metrics\MyBalance;
+use App\Nova\Metrics\PendingBookings;
+use Laravel\Nova\Dashboards\Main as MainDashboard;
 
-class Main extends Dashboard
+class Main extends MainDashboard
 {
     /**
      * Get the cards for the dashboard.
@@ -15,7 +18,9 @@ class Main extends Dashboard
     public function cards()
     {
         return [
-            new Help,
+            PendingBookings::make()->canSee(fn () => auth()->user()->type == User::TYPE_OWNER),
+            MyBalance::make()->canSee(fn () => auth()->user()->type == User::TYPE_OWNER),
+            Users::make()->canSee(fn () => auth()->user()->type == User::TYPE_ADMIN),
         ];
     }
 }
