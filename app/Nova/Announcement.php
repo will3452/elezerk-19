@@ -15,7 +15,8 @@ class Announcement extends Resource
     public static function authorizedToCreate(Request $request)
     {
         $allowed = [\App\Models\User::TYPE_COORDINATOR, \App\Models\User::TYPE_ADMIN];
-        return in_array(auth()->user()->type, $allowed);
+
+        return auth()->check() &&  in_array(auth()->user()->type, $allowed);
     }
 
     public function authorizedToUpdate(Request $request)
