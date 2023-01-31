@@ -12,7 +12,9 @@
     ],
     "require": {
         "php": "^7.3|^8.0",
+        "davidpiesse/nova-map": "^0.0.9",
         "fruitcake/laravel-cors": "^2.0",
+        "genealabs/nova-map-marker-field": "*",
         "grimzy/laravel-mysql-spatial": "^5.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.75",
@@ -64,7 +66,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "symfony/thanks": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

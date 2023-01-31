@@ -29,6 +29,9 @@
 
 <body>
     @include('sweetalert::alert')
+    @if (request()->has('keyword'))
+        <x-search></x-search>
+    @endif
     @auth
         @if (auth()->user()->email_verified_at == null)
             <x-send-verification></x-send-verification>

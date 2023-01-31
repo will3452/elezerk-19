@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f53288916f04e0dcc2c9349222f827b",
+    "content-hash": "73173ca2e9b30d07d6e64bdfbf386478",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -182,6 +182,51 @@
                 }
             ],
             "time": "2021-10-10T11:59:43+00:00"
+        },
+        {
+            "name": "davidpiesse/nova-map",
+            "version": "0.0.9",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/davidpiesse/nova-map.git",
+                "reference": "49ece0aff2d22ea84483884212f07699ac656b77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/davidpiesse/nova-map/zipball/49ece0aff2d22ea84483884212f07699ac656b77",
+                "reference": "49ece0aff2d22ea84483884212f07699ac656b77",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Davidpiesse\\Map\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Davidpiesse\\Map\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Map field for Laravel Nova",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/davidpiesse/nova-map/issues",
+                "source": "https://github.com/davidpiesse/nova-map/tree/0.0.9"
+            },
+            "time": "2022-06-04T09:30:13+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -971,6 +1016,60 @@
                 }
             ],
             "time": "2022-02-23T14:25:13+00:00"
+        },
+        {
+            "name": "genealabs/nova-map-marker-field",
+            "version": "0.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GeneaLabs/nova-map-marker-field.git",
+                "reference": "14b8c02c683bac4e8b81fd7c8239d4bd9b8c28a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GeneaLabs/nova-map-marker-field/zipball/14b8c02c683bac4e8b81fd7c8239d4bd9b8c28a0",
+                "reference": "14b8c02c683bac4e8b81fd7c8239d4bd9b8c28a0",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0",
+                "laravel/nova": "^4.0",
+                "symfony/thanks": "^1.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "GeneaLabs\\NovaMapMarkerField\\Providers\\Service"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GeneaLabs\\NovaMapMarkerField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova field.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/GeneaLabs/nova-map-marker-field/issues",
+                "source": "https://github.com/GeneaLabs/nova-map-marker-field/tree/0.4.2"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/mikebronner",
+                    "type": "github"
+                }
+            ],
+            "abandoned": true,
+            "time": "2022-06-16T13:26:02+00:00"
         },
         {
             "name": "geo-io/interface",
@@ -6192,6 +6291,67 @@
                 }
             ],
             "time": "2022-10-05T15:16:54+00:00"
+        },
+        {
+            "name": "symfony/thanks",
+            "version": "v1.2.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/thanks.git",
+                "reference": "e9c4709560296acbd4fe9e12b8d57a925aa7eae8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/thanks/zipball/e9c4709560296acbd4fe9e12b8d57a925aa7eae8",
+                "reference": "e9c4709560296acbd4fe9e12b8d57a925aa7eae8",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.0|^2.0",
+                "php": ">=5.5.9"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.2-dev"
+                },
+                "class": "Symfony\\Thanks\\Thanks"
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Thanks\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                }
+            ],
+            "description": "Encourages sending ⭐ and 💵 to fellow PHP package maintainers (not limited to Symfony components)!",
+            "support": {
+                "issues": "https://github.com/symfony/thanks/issues",
+                "source": "https://github.com/symfony/thanks/tree/v1.2.10"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-14T17:47:37+00:00"
         },
         {
             "name": "symfony/translation",

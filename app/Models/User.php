@@ -41,6 +41,11 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+
+    public function locationHistories () {
+        return $this->hasMany(LocationHistory::class);
+    }
+
     /**
      * The attributes that should be cast.
      *

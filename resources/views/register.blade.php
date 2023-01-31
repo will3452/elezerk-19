@@ -16,6 +16,11 @@
                                     <div class="login-register-form">
                                         <form action="/register" method="post" autocomplete="false">
                                             @csrf
+                                            <label for="">Reigster as</label>
+                                            <select name="type" id="" class="form-select mb-4">
+                                                <option value="Customer">Customer / Passenger</option>
+                                                <option value="Owner">Driver / Car Owner</option>
+                                            </select>
                                             <label for="">Name</label>
                                             <input type="text" autofocus name="name" placeholder="Name">
                                             <label for="">Email <small>(please enter your valid email)</small> </label>
