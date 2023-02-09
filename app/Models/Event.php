@@ -15,6 +15,8 @@ class Event extends Model
        'description',
        'datetime',
        'user_id',
+       'attachments',
+       'category',
     ];
 
     protected $casts = ['datetime' => 'datetime'];

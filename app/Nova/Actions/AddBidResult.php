@@ -25,7 +25,7 @@ class AddBidResult extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         foreach ($models as $model) {
-            $model->update(['result' => $fields['result']]);
+            $model->update(['result' => $fields['result'], 'status' => 'Done']);
         }
     }
 

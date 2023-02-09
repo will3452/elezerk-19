@@ -14,6 +14,7 @@ trait AdministratorTraits
     }
 
     public function authorizedToDelete(Request $request) {
+        return false;
         return $request->user()->type == User::TYPE_ADMIN;
     }
 

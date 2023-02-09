@@ -14,6 +14,7 @@ use Laravel\Nova\Fields\Badge;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Document extends Resource
@@ -52,6 +53,7 @@ class Document extends Resource
         'id',
         'title',
         'description',
+        'category',
     ];
 
     /**
@@ -66,20 +68,29 @@ class Document extends Resource
             Date::make('Date', 'created_at')
                 ->sortable()
                 ->exceptOnForms(),
+            Select::make('Type')
+                ->options([
+                    'Control' => 'Control',
+                    'Record' => 'Record',
+                    'Communication' => 'Communication',
+                ]),
             Select::make('Category')
                 ->options(\App\Models\Category::get()->pluck('name', 'name')),
             Text::make('Title')
                 ->rules(['required']),
-            Textarea::make('Description')
+            Trix::make('Description')
                 ->alwaysShow()
                 ->rules(['required']),
             File::make('Attachment', 'attachments')
+                ->hideFromDetail()
                 ->rules(['required', 'max:5000']),
-            Badge::make('Status')
-                ->map([
-                    'DONE' => 'success',
-                    'ACTIVE' => 'info',
-                ]),
+            Text::make('Attachment', function () {
+                return "<a style='text-decoration: underline;' href='/verify/$this->attachments' title='view or download attachment '>
+                    $this->attachments
+                 </a>";
+            })
+                ->exceptOnForms()
+                ->asHtml(),
             HasMany::make('Accesses', 'accesses', Access::class)
         ];
     }

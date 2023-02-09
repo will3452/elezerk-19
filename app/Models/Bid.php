@@ -21,6 +21,7 @@ class Bid extends Model
        'status',
        'user_id',
        'result',
+       'bid_no',
     ];
 
     const STATUS_ACTIVE = 'Active';

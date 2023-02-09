@@ -67,6 +67,8 @@ class Bid extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Text::make('Bidding Number', 'bid_no')
+                ->rules(['required']),
             Select::make('Category')
                 ->options(Category::get()->pluck('name', 'name'))
                 ->rules(['required']),
@@ -76,7 +78,13 @@ class Bid extends Resource
             Textarea::make('Description')
                 ->alwaysShow()
                 ->rules(['required']),
-            File::make('Attachment'),
+            File::make('Attachment')
+                ->onlyOnForms(),
+            Text::make('Attachment', function () {
+                return "<a style='text-decoration: underline;' href='/verify/$this->attachment' title='view or download attachment '>
+                    $this->attachment
+                 </a>";
+            })->asHtml(),
             Text::make('Meeting Link')->rules(['required']),
             Currency::make('Price')
                 ->rules(['required']),

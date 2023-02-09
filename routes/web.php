@@ -4,6 +4,7 @@ use App\Mail\BidReminder;
 use App\Models\Bid;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Laravel\Nova\Notifications\NovaNotification;
@@ -30,7 +31,7 @@ Route::get('/register', function () {
 Route::post('/register', function (Request $request) {
     $data = $request->validate([
         'email' => ['required', 'email', 'unique:users,email'],
-        'password' => ['required'],
+        'password' => ['required', 'min:8', 'confirmed'],
         'name' => ['required'],
     ]);
 
@@ -39,7 +40,7 @@ Route::post('/register', function (Request $request) {
 
     User::create($data);
 
-    return 'Registered successfully, <a href="/app/login">Login here</a>';
+    return view('register_success');
 });
 
 Route::get('/cron', function (Request $request) {
@@ -68,3 +69,19 @@ Route::get('/cron', function (Request $request) {
 
     return 200;
 });
+
+Route::get('verify/{file}', function (Request $request, $file) {
+    if (! auth()->check()) {
+        return "error 403";
+    }
+    return view('verify', compact('file'));
+});
+
+Route::get('/verify-validate/{file}', function (Request $request, $file) {
+    if (Hash::check($request->password, auth()->user()->password)) {
+        return redirect('/storage/' . $file);
+    }
+
+    return "Error 403, Unauthorized!";
+});
+Route::view('about', 'about');

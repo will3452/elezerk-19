@@ -17,6 +17,7 @@ class Document extends Model
        'attachments',
        'status',
        'user_id',
+       'type',
     ];
 
     const STATUS_DONE = 'DONE';

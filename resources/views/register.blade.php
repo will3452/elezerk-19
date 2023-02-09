@@ -16,49 +16,40 @@
 </style>
 <body>
 
-    <div class="header-container">
-        <ul>
-            <a href="/" class="menu-btn"><li>HOME</li></a>
-            <a href="/about" class="menu-btn"><li>ABOUT</li></a>
-            <a href="/announcment" class="menu-btn"><li>ANNOUNCEMENTS</li></a>
-            <a href="/bac-schedules" class="menu-btn"><li>BAC SCHEDULES</li></a>
-            <a href="/app" class="menu-btn"><li>LOGIN</li></a>
-            <a href="#" class="active"><li>REGISTER</li></a>
-        </ul>
-    </div>
+    <x-navbar></x-navbar>
 
     <form action="/register" method="POST">
-
+        @csrf
         <div class="register-container">
-
             <div class="register-card">
-                @csrf
                 <div class="register-title">
                     <h2>Registration</h2>
                 </div>
-
-
                 @if ($errors->any())
-                    @foreach ($errors->all() as $error)
-                        <div style="color:red;font-size:12px;">
-                            {{$error}}
+                    @foreach ($errors->all() as $item)
+                        <div style="background: red; color:white; padding:5px;">
+                            {{$item}}
                         </div>
                     @endforeach
                 @endif
                 <div class="form-input">
                     <label for="name">Your Name <span class="required">*</span></label>
-                    <input type="text" autocomplete="off" autofocus required name="name" id="name">
+                    <input  value="{{old('name')}}" type="text" autocomplete="off" autofocus required name="name" id="name">
                 </div>
                 <div class="form-input">
                     <label for="email">Email Address <span class="required">*</span></label>
-                    <input type="text" autocomplete="off" autofocus required name="email" id="email">
+                    <input value="{{old('email')}}"  type="text" autocomplete="off" autofocus required name="email" id="email">
                 </div>
                 <div class="form-input">
                     <label for="new_password">Create Password <span class="required">*</span></label>
                     <input type="password" autocomplete="off" autofocus required name="password" id="new_password">
                 </div>
+                <div class="form-input">
+                    <label for="confirm_password">Confirm Password <span class="required">*</span></label>
+                    <input type="password" autocomplete="off" autofocus required name="password_confirmation" id="confirm_password">
+                </div>
                 <div class="submit-btn">
-                    <button type="submit"><i class="fa-solid fa-right-to-bracket"></i> Register</button>
+                    <button type="submit"><i class="fa-solid fa-right-to-bracket"></i> Register !</button>
                 </div>
             </div>
         </div>

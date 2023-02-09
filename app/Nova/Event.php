@@ -2,14 +2,18 @@
 
 namespace App\Nova;
 
-use App\Nova\Traits\AdministratorTraits;
-use App\Nova\Traits\PublicTraits;
+use App\Nova\Filters\Category;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\File;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Trix;
+use Laravel\Nova\Fields\Select;
+use App\Nova\Traits\PublicTraits;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Textarea;
+use App\Nova\Traits\AdministratorTraits;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Event extends Resource
@@ -54,10 +58,22 @@ class Event extends Resource
                 ->exceptOnForms(),
             Text::make('Name')
                 ->rules(['required']),
-            Textarea::make('Description')
+            Select::make('Category')
+                ->options(\App\Models\Category::get()->pluck('name', 'name')),
+            Trix::make('Description')
                 ->rules(['required']),
             DateTime::make('Date & Time', 'datetime')
                 ->rules(['required']),
+            File::make('Attachment', 'attachments')
+                ->onlyOnForms()
+                ->rules([ 'max:5000']),
+            Text::make('Attachment', function () {
+                return "<a style='text-decoration: underline;' href='/verify/$this->attachments' title='view or download attachment '>
+                    $this->attachments
+                 </a>";
+            })
+                ->exceptOnForms()
+                ->asHtml(),
         ];
     }
 
@@ -80,7 +96,9 @@ class Event extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            (new Category()),
+        ];
     }
 
     /**
