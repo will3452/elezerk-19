@@ -3,8 +3,8 @@
 namespace App\Nova\Dashboards;
 
 use App\Models\Event;
+use Elezerk\Calendarjs\Calendarjs;
 use Laravel\Nova\Dashboard;
-use Elezerk\Calendar\Calendar as CalendarCard;
 
 class Calendar extends Dashboard
 {
@@ -16,7 +16,7 @@ class Calendar extends Dashboard
     public function cards()
     {
         return [
-            CalendarCard::make()->width('full')->withMeta(['events' => Event::get()]),
+            Calendarjs::make(),
         ];
     }
 

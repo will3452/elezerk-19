@@ -15,6 +15,10 @@
         {
             "type": "path",
             "url": "./nova-components/Calendar"
+        },
+        {
+            "type": "path",
+            "url": "./nova-components/Calendarjs"
         }
     ],
     "require": {
@@ -25,7 +29,8 @@
         "laravel/nova": "~4.0",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "elezerk/calendar": "*"
+        "elezerk/calendar": "*",
+        "elezerk/calendarjs": "*"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

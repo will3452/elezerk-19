@@ -87,23 +87,25 @@
         <h1>Announcements</h1>
         <div class="owl-carousel owl-theme owl-loaded">
             @foreach (\App\Models\Announcement::latest()->take(5)->get() as $item)
-                <center>
-                    <a href="/app/resources/announcements">
-                        <div class="announcement-1" style="background: linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(117, 26, 19, 0.73)),
-                        url(/storage/{{$item->image}}) center/cover no-repeat;">
-                            <div class="tag"><span>Announcement</span></div>
-                            <!-- <img src="img/announcement1.jpg" width="70%" height="400" alt=""> -->
-                            <div class="announcement-content">
-                                <div class="date-posted">
-                                    <i class="fa-solid fa-calendar-days"></i> {{$item->created_at->format('M d, Y')}}
-                                </div>
-                                <div class="announcement-title">
-                                    <h2>{{$item->title}}</h2>
+                <div>
+                    <center data-merge="6">
+                        <a href="/app/resources/announcements">
+                            <div class="announcement-1" style="background: linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(117, 26, 19, 0.73)),
+                            url(/storage/{{$item->image}}) center/cover no-repeat;">
+                                <div class="tag"><span>Announcement</span></div>
+                                <!-- <img src="img/announcement1.jpg" width="70%" height="400" alt=""> -->
+                                <div class="announcement-content">
+                                    <div class="date-posted">
+                                        <i class="fa-solid fa-calendar-days"></i> {{$item->created_at->format('M d, Y')}}
+                                    </div>
+                                    <div class="announcement-title">
+                                        <h2>{{$item->title}}</h2>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                </center>
+                        </a>
+                    </center>
+                </div>
             @endforeach
         </div>
         <center>

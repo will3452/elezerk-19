@@ -85,3 +85,5 @@ Route::get('/verify-validate/{file}', function (Request $request, $file) {
     return "Error 403, Unauthorized!";
 });
 Route::view('about', 'about');
+
+Route::view('calendar', 'calendar');
