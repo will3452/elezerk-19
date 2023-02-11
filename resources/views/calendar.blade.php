@@ -9,6 +9,9 @@
         var calendarEl = document.getElementById('calendar');
         var calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth',
+          eventClick: function (info) {
+            alert(info.event.start + ' - ' + info.event.title);
+          },
           events: [
                 // {
                 //     title  : 'event1',
@@ -28,7 +31,6 @@
                     {
                         title: '{{$event->name}}',
                         start: '{{$event->datetime}}',
-                        end: '{{$event->datetime}}',
                         backgroundColor: 'green',
                         color: 'green',
                     },
@@ -36,12 +38,6 @@
             ]
         });
         calendar.render();
-
-
-        calendar.on('dateClick', function(info) {
-            alert(info)
-            console.log(info)
-        });
       });
 
     </script>
