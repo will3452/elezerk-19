@@ -44,6 +44,9 @@ class User extends Resource
 
     public function authorizedToDelete(Request $request)
     {
+        if (auth()->id() == $this->id) {
+            return false;
+        }
         if (auth()->user()->type == \App\Models\User::TYPE_TRAINEE) {
             return false;
         }

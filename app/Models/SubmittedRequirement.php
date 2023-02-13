@@ -13,6 +13,7 @@ class SubmittedRequirement extends Model
         'trainee_id',
         'file',
         'task_id',
+        'remarks',
     ];
 
     public function trainee () {

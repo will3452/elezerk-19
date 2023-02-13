@@ -2,6 +2,7 @@
 
 namespace App\Nova\Metrics;
 
+use Exception;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 
@@ -14,10 +15,15 @@ class ActiveTrainee extends Value
      * @return mixed
      */
     public function calculate(NovaRequest $request)
-    {   $sy = \App\Models\SchoolYear::where('default', 1)->latest()->first();
-        $syStr = "$sy->from - $sy->to";
-        $q = \App\Models\Trainee::whereSchoolYear($syStr);
-        return $this->count($request, $q);
+    {
+        try {
+            $sy = \App\Models\SchoolYear::where('default', 1)->latest()->first();
+            $syStr = "$sy->from - $sy->to";
+            $q = \App\Models\Trainee::whereSchoolYear($syStr);
+            return $this->count($request, $q);
+        } catch (Exception $e) {
+            return $this->result(0);
+        }
     }
 
     /**

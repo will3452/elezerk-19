@@ -79,6 +79,7 @@ class ArchiveStudent extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Text::make('School Year'),
             Text::make('Student No.', 'student_no')
                 ->rules(['required', 'unique:trainees,student_no,{{resourceId}}'])
                 ->sortable(),

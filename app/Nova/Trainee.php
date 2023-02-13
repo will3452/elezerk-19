@@ -115,7 +115,7 @@ class Trainee extends Resource
     {
         return [
             Text::make('Student No.', 'student_no')
-                ->rules(['required', 'unique:trainees,student_no,{{resourceId}}'])
+                ->rules(['required'])
                 ->sortable(),
             Text::make('First Name')
                 ->sortable()

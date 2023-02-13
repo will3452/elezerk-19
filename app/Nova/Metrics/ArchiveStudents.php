@@ -2,8 +2,9 @@
 
 namespace App\Nova\Metrics;
 
-use Laravel\Nova\Http\Requests\NovaRequest;
+use Exception;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Http\Requests\NovaRequest;
 
 class ArchiveStudents extends Value
 {
@@ -15,10 +16,15 @@ class ArchiveStudents extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        $sy = \App\Models\SchoolYear::where('default', 1)->latest()->first();
-        $syStr = "$sy->from - $sy->to";
-        $d = \App\Models\Trainee::where('school_year', '!=', $syStr);
-        return $this->count($request, $d);
+        try {
+            $sy = \App\Models\SchoolYear::where('default', 1)->latest()->first();
+            $syStr = "$sy->from - $sy->to";
+            $d = \App\Models\Trainee::where('school_year', '!=', $syStr);
+            return $this->count($request, $d);
+        }
+        catch (Exception $e) {
+            return $this->result(0);
+        }
     }
 
     /**

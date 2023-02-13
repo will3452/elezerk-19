@@ -2,11 +2,13 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\AddRemarks;
+use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class SubmittedRequirement extends Resource
@@ -55,6 +57,9 @@ class SubmittedRequirement extends Resource
         'trainee_id',
         'task_id',
         'created_at',
+        'trainee.first_name',
+        'trainee.last_name',
+        'trainee.middle_name',
     ];
 
     /**
@@ -66,13 +71,25 @@ class SubmittedRequirement extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Text::make('ON TIME', function () {
+                if ($this->created_at > $this->task->deadline) {
+                    return 'LATE';
+                }
+
+                return 'ON-TIME';
+            })
+                ->exceptOnForms(),
             Date::make('Date', 'created_at')
+                ->exceptOnForms()
                 ->sortable(),
             BelongsTo::make('Task', 'task', Task::class),
-            BelongsTo::make('Trainee', 'trainee', Trainee::class),
+            BelongsTo::make('Trainee', 'trainee', Trainee::class)
+                ->exceptOnForms(),
             File::make('File')
                 ->rules(['max:5000'])
-                ->acceptedTypes('.jpg,.png,.pdf,.gif,.jpeg')
+                ->acceptedTypes('.jpg,.png,.pdf,.gif,.jpeg'),
+            Text::make('Remarks')
+                ->exceptOnForms(),
         ];
     }
 
@@ -117,6 +134,10 @@ class SubmittedRequirement extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            AddRemarks::make()
+                ->canRun(fn () => auth()->user()->type == \App\Models\User::TYPE_COORDINATOR)
+                ->onlyOnTableRow(),
+        ];
     }
 }
