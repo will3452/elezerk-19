@@ -1,32 +1,31 @@
 <?php
 
-use App\Mail\BidReminder;
+use Carbon\Carbon;
 use App\Models\Bid;
 use App\Models\User;
+use App\Models\Visit;
+use App\Mail\BidReminder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Laravel\Nova\Notifications\NovaNotification;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', function () {
+    $alreadyVisited = Visit::whereIp(request()->ip())->whereDate('created_at', Carbon::today())->exists();
+
+    if (! $alreadyVisited) {
+        Visit::create(['ip' => request()->ip()]);
+    }
+
+
     return view('welcome');
 });
 
 Route::get('/register', function () {
     return view('register');
 });
+
 
 Route::post('/register', function (Request $request) {
     $data = $request->validate([

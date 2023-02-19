@@ -51,6 +51,7 @@ class Configuration extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Text::make('Label'),
             Text::make('Key')
                 ->rules(['required'])
                 ->help('valid keys; about,address, phone, email, link_1, link_2, link_3, facebook, twitter, instagram'),

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "273a3471830aecb3b96d76feb27873ee",
+    "content-hash": "67b1fa9b8e5a5b7c4662f7d7562a7de8",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -895,6 +895,42 @@
             "time": "2020-12-29T14:50:06+00:00"
         },
         {
+            "name": "elezerk/bac",
+            "version": "dev-BAC",
+            "dist": {
+                "type": "path",
+                "url": "./nova-components/Bac",
+                "reference": "96b3db9597952d2c0bba204bea3011f004f5ae5d"
+            },
+            "require": {
+                "php": "^7.3|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Elezerk\\Bac\\CardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Elezerk\\Bac\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova card.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "elezerk/calendar",
             "version": "dev-BAC",
             "dist": {
@@ -936,7 +972,7 @@
             "dist": {
                 "type": "path",
                 "url": "./nova-components/Calendarjs",
-                "reference": "66043484d67cb2e35ffe827dd5adbe0bda503002"
+                "reference": "46f78fad11039de831c2b56cbdd4efd3b7b6a726"
             },
             "require": {
                 "php": "^7.3|^8.0"
@@ -1043,6 +1079,7 @@
                     "type": "github"
                 }
             ],
+            "abandoned": true,
             "time": "2022-02-23T14:25:13+00:00"
         },
         {
@@ -2049,16 +2086,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.3.8",
+            "version": "2.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "c493585c130544c4e91d2e0e131e6d35cb0cbc47"
+                "reference": "c1e114f74e518daca2729ea8c4bf1167038fa4b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/c493585c130544c4e91d2e0e131e6d35cb0cbc47",
-                "reference": "c493585c130544c4e91d2e0e131e6d35cb0cbc47",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/c1e114f74e518daca2729ea8c4bf1167038fa4b5",
+                "reference": "c1e114f74e518daca2729ea8c4bf1167038fa4b5",
                 "shasum": ""
             },
             "require": {
@@ -2151,7 +2188,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-10T16:02:17+00:00"
+            "time": "2023-02-15T14:07:24+00:00"
         },
         {
             "name": "league/config",

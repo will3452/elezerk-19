@@ -91,7 +91,7 @@ class Bid extends Resource
             Badge::make('Status')
                 ->map([
                     'Active' => 'info',
-                    'Done' => 'Success',
+                    'Done' => 'success',
                 ]),
             Textarea::make('Result')
                 ->exceptOnForms()

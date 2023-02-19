@@ -158,9 +158,21 @@
         </div>
         <div class="footer-section">
             <h4>Resources</h4>
-            <span><li>{{conf('link_1')}}</li></span>
-            <span><li>{{conf('link_2')}}</li></span>
-            <span><li>{{conf('link_3')}}</li></span>
+            <span><li>
+                <a href="{{conf('link_1')}}">
+                    {{conf('link_1', 'label')}}
+                </a>
+                </li></span>
+            <span><li>
+                <a href="{{conf('link_2')}}">
+                    {{conf('link_2', 'label')}}
+                </a>
+                </li></span>
+            <span><li>
+                <a href="{{conf('link_3')}}">
+                    {{conf('link_3', 'label')}}
+                </a>
+                </li></span>
         </div>
         <div class="footer-section">
             <h4>Networks</h4>

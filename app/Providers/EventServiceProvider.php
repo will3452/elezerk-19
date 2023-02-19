@@ -2,6 +2,14 @@
 
 namespace App\Providers;
 
+use App\Models\Announcement;
+use App\Models\Bid;
+use App\Models\Document;
+use App\Models\Event as ModelsEvent;
+use App\Observers\AnnouncementObserver;
+use App\Observers\BidObserver;
+use App\Observers\DocumentObserver;
+use App\Observers\EventObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,6 +35,9 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Document::observe(DocumentObserver::class);
+        Announcement::observe(AnnouncementObserver::class);
+        ModelsEvent::observe(EventObserver::class);
+        Bid::observe(BidObserver::class);
     }
 }

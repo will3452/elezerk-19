@@ -2,17 +2,16 @@
 
 namespace App\Nova\Actions;
 
+use App\Models\Participant;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
-use Laravel\Nova\Fields\Select;
-use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class AddBidResult extends Action
+class markAsWinner extends Action
 {
     use InteractsWithQueue, Queueable;
 
@@ -26,8 +25,8 @@ class AddBidResult extends Action
     public function handle(ActionFields $fields, Collection $models)
     {
         foreach ($models as $model) {
-            $model->update(['result' => $fields['result'], 'status' => 'Done']);
-
+            Participant::whereBidId($model->bid_id)->update(['has_won' => false]);
+            $model->update(['has_won' => true]);
         }
     }
 
@@ -39,9 +38,6 @@ class AddBidResult extends Action
      */
     public function fields(NovaRequest $request)
     {
-        return [
-            Textarea::make('Result')
-                ->rules(['required']),
-        ];
+        return [];
     }
 }

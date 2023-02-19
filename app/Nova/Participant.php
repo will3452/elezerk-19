@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\markAsWinner;
 use App\Nova\Traits\AdministratorTraits;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
@@ -68,6 +69,9 @@ class Participant extends Resource
             BelongsTo::make('User', 'user', User::class),
 
             BelongsTo::make('Bid', 'bid', Bid::class),
+            Text::make('Winner', function () {
+                return $this->has_won ? 'Winner': '--';
+            })
         ];
     }
 
@@ -112,6 +116,10 @@ class Participant extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            markAsWinner::make()
+                ->onlyOnTableRow()
+                ->canRun(fn () => auth()->user()->type == "Administrator"),
+        ];
     }
 }
