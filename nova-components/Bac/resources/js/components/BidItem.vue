@@ -41,8 +41,7 @@
                                     Bidding Description:
                                 </div>
                             </td>
-                            <td class="font-thin">
-                                {{ bid.description }}
+                            <td class="font-thin" v-html="bid.description">
                             </td>
                         </tr>
                         <tr>

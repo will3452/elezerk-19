@@ -18,6 +18,7 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Bid extends Resource
@@ -75,7 +76,7 @@ class Bid extends Resource
             DateTime::make('Schedule', 'scheduled_date')
                 ->rules(['required']),
             Text::make('Topic')->rules(['required']),
-            Textarea::make('Description')
+            Trix::make('Description')
                 ->alwaysShow()
                 ->rules(['required']),
             File::make('Attachment')
