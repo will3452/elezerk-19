@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Coordinator;
+use App\Models\SchoolYear;
 use App\Models\Trainee;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -60,6 +61,19 @@ Route::post('/login', function (Request $request) {
         alert()->warning('Record Not found!');
 
         return back();
+    }
+
+    if ($user->type == User::TYPE_TRAINEE) {
+        $sy = $user->trainee->school_year;
+        $sy = explode(' - ', $sy);
+
+        $dSy = SchoolYear::default();
+
+        if ($dSy->from != $sy[0] || $dSy->to != $sy[1]) {
+            alert("You're not allowed to login.");
+            return back();
+        }
+
     }
 
     if (Hash::check($request->password, $user->password)) {

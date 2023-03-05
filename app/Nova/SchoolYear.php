@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Rules\SchoolYearRule;
 use Laravel\Nova\Fields\ID;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
@@ -47,11 +48,11 @@ class SchoolYear extends Resource
     {
         return [
             Text::make('From')
-                ->rules(['required'])
+                ->creationRules(['required', new SchoolYearRule])
                 ->sortable(),
 
             Text::make('To')
-                ->rules(['required'])
+                ->creationRules(['required', new SchoolYearRule])
                 ->sortable(),
 
             Boolean::make('Default'),

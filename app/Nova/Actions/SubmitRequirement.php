@@ -36,7 +36,7 @@ class SubmitRequirement extends Action
             if ($model->status != 'ON-GOING') {
                 return Action::danger('Task is already finished, you\'re not able to submit requirements, please contact the coordinator!');
             }
-            SubmittedRequirement::create([
+            $s = SubmittedRequirement::create([
                 'trainee_id' => $traineeId,
                 'task_id' => $model->id,
                 'file' => $file,
@@ -44,7 +44,7 @@ class SubmitRequirement extends Action
 
             $trainee = auth()->user()->trainee;
 
-            $model->coordinator->user->notify(NovaNotification::make()->message("$trainee->first_name, a trainee, submitted his requirement to a task.")->icon('check'));
+            $model->coordinator->user->notify(NovaNotification::make()->message("$trainee->first_name, a trainee, submitted his requirement to a task.")->action('view', '/resources/tasks/' . $model->id)->icon('check'));
         }
     }
 

@@ -20,6 +20,7 @@ class TaskObserver
         foreach ($trainees as $trainee) {
             $trainee->user->notify(NovaNotification::make()
                 ->message('New task has been created!')
+                ->action('view task', '/resources/tasks/' . $task->id )
                 ->icon('bolt')
             );
         }

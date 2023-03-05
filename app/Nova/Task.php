@@ -97,7 +97,7 @@ class Task extends Resource
             Textarea::make('Description')
                 ->alwaysShow()
                 ->rules(['required']),
-            DateTime::make('Deadline')->sortable(),
+            DateTime::make('Deadline')->rules(['after:now'])->sortable(),
             Select::make('Status')
                 ->options([
                     'ON-GOING' => 'ON-GOING',
