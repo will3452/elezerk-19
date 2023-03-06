@@ -65,9 +65,8 @@ class Announcement extends Resource
             Date::make('Date', 'created_at')
                 ->sortable()
                 ->exceptOnForms(),
-            Textarea::make('Description')
-                ->sortable()
-                ->alwaysShow(),
+            Text::make('Description')
+                ->sortable(),
             Hidden::make('user_id')
                 ->default(fn () => auth()->id())
         ];
