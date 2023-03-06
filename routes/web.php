@@ -67,7 +67,7 @@ Route::post('/login', function (Request $request) {
         $sy = $user->trainee->school_year;
         $sy = explode(' - ', $sy);
 
-        $dSy = SchoolYear::default();
+        $dSy = SchoolYear::whereDefault(1)->first();
 
         if ($dSy->from != $sy[0] || $dSy->to != $sy[1]) {
             alert("You're not allowed to login.");

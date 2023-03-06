@@ -10,15 +10,6 @@ class SchoolYear extends Model
 {
     use HasFactory;
 
-    public static function default() {
-        try {
-            return self::whereDefault(1)->first();
-        } catch (Exception $e) {
-            return null;
-        }
-
-    }
-
     protected $fillable = [
         'from',
         'to',
